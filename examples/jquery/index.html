@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<title>jQuery Performance Test Suite</title>
+		<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+		      type="text/css"/>
+		<link href="css/style.css" rel="stylesheet" type="text/css"/>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="span9">
+					<div class="page-header">
+						<h1>jQuery Performance Tests
+							<small>Running on perfect.js</small>
+						</h1>
+					</div>
+
+					<div class="well">
+						This page runs performance tests on various jQuery
+						functions. Each tests takes approximately
+						<span id="opsPerSec">###</span> seconds, so the
+						estimated running time is
+						<span id="estimatedTime">###</span> seconds.
+					</div>
+
+					<div id="progress" class="progress progress-striped hidden">
+						<div class="bar" style="width: 0%"></div>
+					</div>
+
+					<button id="run"
+					        class="btn btn-large btn-block btn-primary">
+						Run tests
+					</button>
+				</div> <!-- span -->
+			</div> <!-- row -->
+
+			<div class="row">
+				<div class="span9">
+					<div id="starting" class="hidden">
+						<i class="icon-time"></i>
+					</div>
+
+					<table id="tests" class="table table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Test</th>
+								<th>Kilo ops/sec</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+
+					<textarea id="csv"></textarea>
+				</div> <!-- span -->
+
+				<div class="span3">
+					<div id="sidebar" data-spy="affix">
+						<div id="status" class="hidden">
+							<span id="icon">
+								<i class="icon-time"></i>
+							</span>
+							<span id="progress">
+								Running test <span id="current">1</span> of
+								<span id="total">###</span>...
+							</span>
+						</div>
+
+						<div id="report"></div>
+
+						<div id="toggleCSV">
+							<button class="btn btn-large btn-block btn-primary">
+								<i class="icon-white icon-list"></i> Toggle CSV
+							</button>
+						</div>
+					</div> <!-- sidebar -->
+				</div> <!-- span -->
+			</div> <!-- row -->
+		</div> <!-- container -->
+
+		<script src="../../lib/benchmark.js"></script>
+		<script src="../../lib/underscore-min.js"></script>
+		<script src="../../lib/lazyload-min.js"></script>
+		<script src="../../perfect.js"></script>
+
+		<script src="lib/humanize.js"></script>
+
+		<!-- our suite depends on jQuery for the UI, so we add the "old"
+             version. It's a bit of a funny scenario, because we are testing
+             jQuery itself, but it's alright.
+        -->
+		<script src="lib/jquery-1.8.3.min.js"></script>
+		<script srC="lib/bootstrap/js/bootstrap.min.js"></script> <!-- affix -->
+
+		<script src="src/ui.js"></script>
+		<script src="src/suite.js"></script>
+	</body>
+</html>

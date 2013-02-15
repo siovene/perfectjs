@@ -1,0 +1,43 @@
+#starting {
+	text-align: center;
+	margin-top: 42px;
+}
+
+#tests {
+	display: none;
+}
+
+#status, #report {
+	margin-top: 42px;
+	text-align: center;
+}
+
+#status #icon {
+	margin-right: 10px;
+}
+
+#status #progress #current {
+	font-weight: bold;
+}
+
+#status #progress #total {
+	color: #999;
+}
+
+#csv {
+	display: none;
+	width: 98.35%;
+	line-height: 36px;
+	padding-top: 36px;
+}
+
+#toggleCSV {
+	margin-top: 10px;
+	text-align: center;
+	display: none;
+}
+
+#estimatedTime {
+	font-weight: bold;
+	font-size: 120%;
+}
