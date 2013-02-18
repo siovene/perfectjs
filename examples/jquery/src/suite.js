@@ -1,10 +1,10 @@
 $(function() {
 	jQuerySuiteGlobals = {
-		suite: new Benchmark.Suite,
-		perfect: new Perfect
+		suite: new Benchmark.Suite(),
+		perfect: new Perfect()
 	};
 
-	Benchmark.options.maxTime = 2;
+	Benchmark.options.maxTime = 5;
 
 	var set_of_p = $('<p>1</p> <p>2</p> <p>3</p>');
 
@@ -57,16 +57,21 @@ $(function() {
 	})
 	.add( "core: end()", function() {
 		set_of_p.end();
-	})
+	});
 
 	jQuerySuiteGlobals.perfect.setOptions({
 		name: 'jQuery Performance Regression Tests',
 		a: 'lib/jquery-1.8.3.min.js',
 		b: 'lib/jquery-1.9.1.min.js',
 		suite: jQuerySuiteGlobals.suite,
+
 		start: ui.onStart,
 		cycle: ui.onCycle,
 		complete: ui.onComplete,
+
+		cycle_a: ui.onCycleA,
+		cycle_b: ui.onCycleB,
+
 		lazyload_a: false
 	});
 });

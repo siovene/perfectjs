@@ -28,7 +28,7 @@
  * ***************************************************************************
  */
 
-;(function(window, undefined) {
+;(function(window, _, ll, undefined) {
 	'use strict';
 
 	/**
@@ -36,7 +36,7 @@
 	 *
 	 * @constructor
 	 * @param {String} name A name to identify the performance testing group.
-	 * @param {Objecþ} [options={}] Options object.
+	 * @param {Object} [options={}] Options object.
 	 */
 	function Perfect(options) {
 		var self = this;
@@ -46,6 +46,7 @@
 			return new Perfect(options);
 		}
 
+		self.runOptions = {async: true};
 		self.setOptions(options);
 	}
 
@@ -115,6 +116,48 @@
 			'complete': undefined,
 
 			/**
+			 * A callback run at the start of the Benchmark suite for `a`.
+			 * @memberOf Perfect.options
+			 * @type Function
+			 */
+			'start_a': undefined,
+
+			/**
+			 * A callback run after each test in the Benchmark suite for `a`.
+			 * @memberOf Perfect.options
+			 * @type Function
+			 */
+			'cycle_a': undefined,
+
+			/**
+			 * A callback run at the end of the Benchmark suite for `a`.
+			 * @memberOf Perfect.options
+			 * @type Function
+			 */
+			'complete_a': undefined,
+
+			/**
+			 * A callback run at the start of the Benchmark suite for `b`.
+			 * @memberOf Perfect.options
+			 * @type Function
+			 */
+			'start_b': undefined,
+
+			/**
+			 * A callback run after each test in the Benchmark suite for `b`.
+			 * @memberOf Perfect.options
+			 * @type Function
+			 */
+			'cycle_b': undefined,
+
+			/**
+			 * A callback run at the end of the Benchmark suite for `b`.
+			 * @memberOf Perfect.options
+			 * @type Function
+			 */
+			'complete_b': undefined,
+
+			/**
 			 * A boolean value that specifies whther the 'a' library should be
 			 * lazy loaded. You may want to set this to `false` if you have
 			 * linked to 'a' in your HTML code.
@@ -136,18 +179,17 @@
 		 * @memberOf Perfect
 		 */
 		run: function() {
-			var self = this,
-			    runOptions = {async: true};
+			var self = this;
 
 			console.log("Perfect.run: entered.");
 
 			if (self.options.lazyload_a) {
-				LazyLoad.js(self.options.a, function() {
+				ll.js(self.options.a, function() {
 					console.log("Perfect.run: 'a' loaded: " + self.options.a);
-					self.options.suite.run(runOptions);
+					self.options.suite.run(self.runOptions);
 				});
 			} else {
-				self.options.suite.run(runOptions);
+				self.options.suite.run(self.runOptions);
 			}
 		},
 
@@ -162,10 +204,10 @@
 			_.extend(Perfect.prototype.options, options);
 
 			if (self.options.suite !== undefined) {
-				_.map({'start': 'onStart',
-					   'cycle': 'onCycle',
-					   'complete': 'onComplete'}, function(fn, eventName) {
-					self.options.suite.on(eventName, self[fn].bind(self));
+				self._bindListeners({
+					'start': ['_onStart', '_onStartA'],
+					'cycle': ['_onCycle', '_onCycleA'],
+					'complete': ['_onCompleteA']
 				});
 			}
 		}
@@ -175,27 +217,99 @@
 	/* Private functions. */
 
 	_.extend(Perfect.prototype, {
-		onStart: function(event) {
-			console.log("Perfect.onStart: entered.");
+		_bindListeners: function(data) {
+			var self = this;
+
+			_.map(data, function(listeners, eventName) {
+				_.each(listeners, function(i) {
+					self.options.suite.on(eventName, self[i].bind(self));
+				});
+			});
+		},
+
+		_onStart: function(event) {
+			console.log("Perfect._onStart: entered.");
 			if (_.isFunction(this.options.start)) {
 				this.options.start(event, this.options.suite);
 			}
 		},
 
-		onCycle: function(event, suite) {
-			console.log("Perfect.onCycle: entered.");
+		_onCycle: function(event, suite) {
+			console.log("Perfect._onCycle: entered.");
 			if (_.isFunction(this.options.cycle)) {
 				this.options.cycle(event, this.options.suite);
 			}
 		},
 
-		onComplete: function(suite) {
-			console.log("Perfect.onComplete: entered.");
+		_onComplete: function(suite) {
+			console.log("Perfect._onComplete: entered.");
 			if (_.isFunction(this.options.complete)) {
 				this.options.complete(this.options.suite);
 			}
+		},
 
-			/* TODO: now start testing version 'b'. */
+		_onStartA: function(event) {
+			console.log("Perfect._onStartA: entered.");
+			if (_.isFunction(this.options.start_a)) {
+				this.options.start_a(event, this.options.suite);
+			}
+		},
+
+		_onCycleA: function(event, suite) {
+			console.log("Perfect._onCycleA: entered.");
+			if (_.isFunction(this.options.cycle_a)) {
+				this.options.cycle_a(event, this.options.suite);
+			}
+		},
+
+		_onCompleteA: function(suite) {
+			var self = this;
+
+			console.log("Perfect._onCompleteA: entered.");
+			if (_.isFunction(this.options.complete_a)) {
+				this.options.complete_a(this.options.suite);
+			}
+
+			if (this.options.suite !== undefined) {
+				this.options.suite.off();
+				this._bindListeners({
+					'start': ['_onStartB'],
+					'cycle': ['_onCycle', '_onCycleB'],
+					'complete': ['_onCompleteB', '_onComplete']
+				});
+			}
+
+			ll.js(this.options.b, function() {
+				console.log(
+					"Perfect._onCompleteA: 'b' loaded: " +
+					self.options.b);
+				self.options.suite.run(self.runOptions);
+			});
+		},
+
+		_onStartB: function(event) {
+			console.log("Perfect._onStartB: entered.");
+			if (_.isFunction(this.options.start_b)) {
+				this.options.start_b(event, this.options.suite);
+			}
+		},
+
+		_onCycleB: function(event, suite) {
+			console.log("Perfect._onCycleB: entered.");
+			if (_.isFunction(this.options.cycle_b)) {
+				this.options.cycle_b(event, this.options.suite);
+			}
+		},
+
+		_onCompleteB: function(suite) {
+			console.log("Perfect._onCompleteB: entered.");
+			if (_.isFunction(this.options.complete_b)) {
+				this.options.complete_b(this.options.suite);
+			}
+
+			if (this.options.suite !== undefined) {
+				this.options.suite.off();
+			}
 		}
 	});
 
@@ -203,4 +317,4 @@
 	/* Expose Perfect. */
 
 	window.Perfect = Perfect;
-}(this));
+}(this, _, LazyLoad));

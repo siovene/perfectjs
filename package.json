@@ -1,0 +1,12 @@
+{
+  "name": "perfectjs",
+  "description": "PERFormance Evaluating Comparative Testing",
+  "version": "0.1.0",
+  "keywords": ["javascript", "performance", "testing"],
+  "homepage": "https://github.com/siovene/perfectjs",
+  "author": "Salvatore Iovene <salvatore.iovene@intel.com>",
+  "devDependencies": {
+   "grunt": ">=0.3.17",
+   "jshint": ">=0.9.1"
+  }
+}
