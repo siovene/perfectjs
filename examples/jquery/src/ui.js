@@ -18,6 +18,9 @@
 		onStart: function(event, suite) {
 			console.log("window.ui.onStart");
 			$('#status #progress #total').text(suite.length);
+			$('#status #comparing #a').text(jQuerySuiteGlobals.perfect.options.a);
+			$('#status #comparing #b').text(jQuerySuiteGlobals.perfect.options.b);
+
 			$('#opsPerSec').text(Benchmark.options.maxTime);
 			$('#estimatedTime').text(suite.length * Benchmark.options.maxTime);
 
@@ -51,12 +54,16 @@
 					'<td class="name"></td>' +
 					'<td class="hz_a"></td>' +
                     '<td class="hz_b"><i class="icon-time"></i></td>' +
+					'<td class="diff"><i class="icon-time"></i></td>' +
 				'</tr>');
 
 			$template.attr('id', event.target.id);
 			$template.find('.number').text(event.target.id);
 			$template.find('.name').text(event.target.name);
-			$template.find('.hz_a').text(humanize.numberFormat(event.target.hz / 1000.0));
+			$template.find('.hz_a')
+				.text(humanize.numberFormat(event.target.hz / 1000.0))
+				.attr('data-value', event.target.hz);
+
 			$('#tests tbody').append($template);
 			$('#csv').append(
 				event.target.id + ',"' +
@@ -66,8 +73,22 @@
 
 		onCycleB: function(event, suite) {
 			console.log("window.ui.onCycleB");
-			$('#tests').find('tr#' + event.target.id + ' td.hz_b').text(
-				humanize.numberFormat(event.target.hz / 1000.0));
+
+			var $row = $('#tests').find('tr#' + event.target.id),
+			    hz_a = parseFloat($row.find('td.hz_a').attr('data-value')),
+				hz_b = event.target.hz,
+				diff = humanize.numberFormat((hz_a - hz_b) / hz_a);
+
+			$row.find('td.hz_b')
+				.text(humanize.numberFormat(hz_b / 1000.0))
+				.attr('data-value', hz_b);
+
+			$row.find('td.diff').text(diff + '%');
+			if (diff > 0) {
+				$row.addClass('success');
+			} else if (diff < 0) {
+				$row.addClass('error');
+			}
 		},
 
 		onComplete: function(suite) {
