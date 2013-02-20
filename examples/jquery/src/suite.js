@@ -72,6 +72,7 @@ $(function() {
 		cycle_a: ui.onCycleA,
 		cycle_b: ui.onCycleB,
 
-		lazyload_a: false
+		lazyload_a: false,
+		enable_ui: false
 	});
 });

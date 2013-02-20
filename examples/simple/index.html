@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Simple Performance Test Suite</title>
+	</head>
+
+	<body>
+		<h1>Simple Performance Tests</h1>
+		<p>Compares a recursive and a fast iterative Fibonacci sequence generators.</p>
+
+		<table id="perfect" border="1" cellpadding="10">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Test</th>
+					<th>Kilo ops/sec 'A'</th>
+					<th>Kilo ops/sec 'B'</th>
+					<th>Diff</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+
+		<script src="../../lib/benchmark.js"></script>
+		<script src="../../lib/underscore-min.js"></script>
+		<script src="../../lib/lazyload-min.js"></script>
+		<script src="../../perfect.js"></script>
+
+		<script src="lib/jquery-1.9.1.min.js"></script>
+		<script src="src/suite.js"></script>
+	</body>
+</html>

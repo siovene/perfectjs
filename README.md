@@ -21,6 +21,7 @@ Perfectjs needs:
  * Benchmarkjs: http://benchmarkjs.com/
  * Underscorejs: http://underscorejs.org/
  * LazyLoad: https://github.com/rgrove/lazyload/
+ * jQuery: http://jquery.org/ (only if you want to use Perfect.UI)
 
 Remember to include them before Perfectjs, in your HTML files.
 

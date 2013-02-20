@@ -42,7 +42,7 @@
 		var self = this;
 
 		// allow instance creation without the `new` operator
-		if (self == null || self.constructor != Perfect) {
+		if (self == null || self.constructor != Perfect) {
 			return new Perfect(options);
 		}
 
@@ -158,14 +158,20 @@
 			'complete_b': undefined,
 
 			/**
-			 * A boolean value that specifies whther the 'a' library should be
+			 * A boolean value that specifies whether the 'a' library should be
 			 * lazy loaded. You may want to set this to `false` if you have
 			 * linked to 'a' in your HTML code.
 			 *
 			 * @memberOf Perfect.options
 			 * @type Boolean
 			 */
-			'lazyload_a': true
+			'lazyload_a': true,
+
+			/**
+			 * A boolean value that specifies whether the Perfect.UI library
+			 * should be used.
+			 */
+			'enable_ui': true
 		}
 	});
 
@@ -210,7 +216,14 @@
 					'complete': ['_onCompleteA']
 				});
 			}
-		}
+		},
+
+		/**
+		 * The Perfect UI constructor.
+		 *
+		 * @constructor
+		 */
+		UI: function() {}
 	});
 
 	/* ---------------------------------------------------------------------- */
@@ -223,6 +236,9 @@
 			_.map(data, function(listeners, eventName) {
 				_.each(listeners, function(i) {
 					self.options.suite.on(eventName, self[i].bind(self));
+					if (self.options.enable_ui) {
+						self.options.suite.on(eventName, self.UI[i].bind(self));
+					}
 				});
 			});
 		},
@@ -312,6 +328,75 @@
 			}
 		}
 	});
+
+	_.extend(Perfect.prototype.UI, {
+		_onStart: function(event) {
+			console.log("Perfect.UI.onStart: entered.");
+		},
+
+		_onCycle: function(event) {
+			console.log("Perfect.UI.onCycle: entered.");
+			console.log(event.target.hz);
+		},
+
+		_onComplete: function(event) {
+			console.log("Perfect.UI.onComplete: entered.");
+		},
+
+		_onStartA: function(event) {
+			console.log("Perfect.UI.onStartA: entered.");
+		},
+
+		_onCycleA: function(event) {
+			console.log("Perfect.UI.onCycleA: entered.");
+
+			var $template = $(
+				'<tr>' +
+					'<td class="number"></td>' +
+					'<td class="name"></td>' +
+					'<td class="hz_a"></td>' +
+                    '<td class="hz_b">...</td>' +
+					'<td class="diff">...</td>' +
+				'</tr>');
+
+			$template.attr('id', event.target.id);
+			$template.find('.number').text(event.target.id);
+			$template.find('.name').text(event.target.name);
+			$template.find('.hz_a')
+				.text(event.target.hz / 1000.0)
+				.attr('data-value', event.target.hz);
+
+			$('table#perfect tbody').append($template);
+		},
+
+		_onCompleteA: function(event) {
+			console.log("Perfect.UI.onCompleteA: entered.");
+		},
+
+		_onStartB: function(event) {
+			console.log("Perfect.UI.onStartB: entered.");
+		},
+
+		_onCycleB: function(event) {
+			console.log("Perfect.UI.onCycleB: entered.");
+
+			var $row = $('table#perfect').find('tr#' + event.target.id),
+			    hz_a = parseFloat($row.find('td.hz_a').attr('data-value')),
+				hz_b = event.target.hz,
+				diff = (hz_a - hz_b) / hz_a;
+
+			$row.find('td.hz_b')
+				.text(hz_b / 1000.0)
+				.attr('data-value', hz_b);
+
+			$row.find('td.diff').text(diff + '%');
+		},
+
+		_onCompleteB: function(event) {
+			console.log("Perfect.UI.onCompleteB: entered.");
+		}
+    });
+
 
 	/* ---------------------------------------------------------------------- */
 	/* Expose Perfect. */
