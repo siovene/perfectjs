@@ -40,7 +40,7 @@ This minimal example will make use of `Perfect.UI`, a simple component that
 uses `jQuery` to append results to an `HTML` `<table>`.
 
 Your `HTML` file needs to have a `<table>` with `id="perfect"` and a `<tbody>`
-child elment. Here's an example:
+child element. Here's an example:
 
 ```html
 <table id="perfect" border="1" cellpadding="10">
