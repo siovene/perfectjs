@@ -61,18 +61,18 @@ child element. Here's an example:
 Data will be appended to the `<tbody>` element.
 
 ## Examples ##
-Please see the examples/ directory.
+Please see the `examples/` directory.
 
 
-### Dependencies ###
-Perfectjs needs:
+## Dependencies ##
+`Perfect` needs:
  * Benchmarkjs: http://benchmarkjs.com/
  * Underscorejs: http://underscorejs.org/
  * LazyLoad: https://github.com/rgrove/lazyload/
  * jQuery: http://jquery.org/ (only if you want to use Perfect.UI)
 
-Remember to include them before Perfectjs, in your HTML files.
+Remember to include them before `Perfect`, in your `HTML` files.
 
 
-### Authors and contributors ###
+## Authors and contributors ##
 Salvatore Iovene <salvatore.iovene@intel.com>
