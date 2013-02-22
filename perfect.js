@@ -28,6 +28,9 @@
  * ***************************************************************************
  */
 
+/*global define:false*/
+/*global module:false*/
+
 ;(function(window, _, ll, $, undefined) {
 	'use strict';
 
