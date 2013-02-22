@@ -63,7 +63,6 @@ Data will be appended to the `<tbody>` element.
 ## Examples ##
 Please see the `examples/` directory.
 
-
 ## Dependencies ##
 `Perfect` needs:
  * Benchmarkjs: http://benchmarkjs.com/
@@ -73,6 +72,14 @@ Please see the `examples/` directory.
 
 Remember to include them before `Perfect`, in your `HTML` files.
 
+## Contributing ##
+Please remember to run `grunt lint` before submitting patches.
+
+## Testing ##
+`Perfect` ships with unit tests. Please run `npm install` to install
+the required dependencies, and then `node tests/server.js`.
+
+Finally, point your browser to http://localhost:3000/tests/ .
 
 ## Authors and contributors ##
 Salvatore Iovene <salvatore.iovene@intel.com>

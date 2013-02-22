@@ -28,7 +28,7 @@
  * ***************************************************************************
  */
 
-;(function(window, _, ll, undefined) {
+;(function(window, _, ll, $, undefined) {
 	'use strict';
 
 	/**
@@ -407,7 +407,7 @@
 	    define.amd) {
 		// define as an anonymous module so, through path mapping, it can be
         // aliased
-		define('perfect', ['underscore', 'LazyLoad'], function() {
+		define('perfect', ['underscore', 'LazyLoad', 'jQuery'], function() {
             return Perfect;
         });
 	}
@@ -431,4 +431,4 @@
 		// http://code.google.com/closure/compiler/docs/api-tutorial3.html#export
 		window['Perfect'] = Perfect;
 	}
-}(this, _, LazyLoad));
+}(this, _, LazyLoad, $));

@@ -7,6 +7,7 @@
   "author": "Salvatore Iovene <salvatore.iovene@intel.com>",
   "devDependencies": {
    "grunt": ">=0.3.17",
-   "jshint": ">=0.9.1"
+   "jshint": ">=0.9.1",
+   "connect": ">= 2.7.2"
   }
 }
