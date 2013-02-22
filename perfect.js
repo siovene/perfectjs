@@ -401,5 +401,34 @@
 	/* ---------------------------------------------------------------------- */
 	/* Expose Perfect. */
 
-	window.Perfect = Perfect;
+	// some AMD build optimizers, like r.js, check for specific condition
+    // patterns like the following:
+	if (typeof define == 'function' && typeof define.amd == 'object' &&
+	    define.amd) {
+		// define as an anonymous module so, through path mapping, it can be
+        // aliased
+		define('perfect', ['underscore', 'LazyLoad'], function() {
+            return Perfect;
+        });
+	}
+	// check for `exports` after `define` in case a build optimizer adds an
+	// `exports` object
+	else if (window.freeExports) {
+		// in Node.js or RingoJS v0.8.0+
+		if (typeof module == 'object' && module &&
+		    module.exports == this.freeExports) {
+			(module.exports = Perfect).Perfect = Perfect;
+		}
+		// in Narwhal or RingoJS v0.7.0-
+		else {
+			window.freeExports.Perfect = Perfect;
+		}
+	}
+	// in a browser or Rhino
+	else {
+		// use square bracket notation so Closure Compiler won't munge
+		// `Perfect`
+		// http://code.google.com/closure/compiler/docs/api-tutorial3.html#export
+		window['Perfect'] = Perfect;
+	}
 }(this, _, LazyLoad));
