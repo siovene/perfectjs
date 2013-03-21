@@ -30,6 +30,7 @@
 
 /*global define:false*/
 /*global module:false*/
+/*global Benchmark:false*/
 
 ;(function(window, _, ll, $, undefined) {
 	'use strict';
@@ -400,7 +401,6 @@
 		}
     });
 
-
 	/* ---------------------------------------------------------------------- */
 	/* Expose Perfect. */
 
@@ -409,10 +409,10 @@
 	if (typeof define == 'function' && typeof define.amd == 'object' &&
 	    define.amd) {
 		// define as an anonymous module so, through path mapping, it can be
-        // aliased
+		// aliased
 		define('perfect', ['underscore', 'LazyLoad', 'jQuery'], function() {
-            return Perfect;
-        });
+			return Perfect;
+		});
 	}
 	// check for `exports` after `define` in case a build optimizer adds an
 	// `exports` object

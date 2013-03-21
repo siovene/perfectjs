@@ -6,6 +6,7 @@ module.exports = function(grunt) {
       files: [
         'grunt.js',
         'perfect.js',
+        'perfect-qunit.js',
         'examples/**/src/*.js'
       ],
       tasks: 'default'
@@ -15,6 +16,7 @@ module.exports = function(grunt) {
       all: [
         'grunt.js',
         'perfect.js',
+        'perfect-qunit.js',
         'examples/**/src/*.js'
       ]
     },
@@ -41,6 +43,10 @@ module.exports = function(grunt) {
       perfectjs: {
         src: ['perfect.js'],
         dest: 'perfect.min.js'
+      },
+      perfect_qunit: {
+        src: ['perfect-qunit.js'],
+        dest: 'perfect-qunit.min.js'
       }
     }
   });

@@ -60,6 +60,27 @@ child element. Here's an example:
 
 Data will be appended to the `<tbody>` element.
 
+## QUnit compatibility layer ##
+Because `Perfectjs` works by comparing two versions of your library, you may
+recycle your `QUnit` unit tests as performance tests. Knowing that certain
+unit tests run faster or slower across different versions of your library can
+help you spot performance regressions, and you don't need to write a lot of
+performance tests anew.
+
+To reuse your `QUnit` unit tests, link `perfect-qunit.js` after
+`perfect.js` in your HTML file, then link your unit test javascript files,
+and finally add the following code at the end of your `<body>`:
+
+```html
+<script type="text/javascript">
+	QUnit.runPerfect({
+		name: 'My performance test',
+		a: 'lib/target_library_0.1.js',
+		b: 'lib/target_library_0.2.js'
+	});
+</script>
+```
+
 ## Examples ##
 Please see the `examples/` directory.
 

@@ -1,2 +1,4 @@
 perfect.min.js
+perfect-qunit.min.js
 node_modules/
+tests/pid.txt
