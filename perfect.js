@@ -175,7 +175,13 @@
 			 * A boolean value that specifies whether the Perfect.UI library
 			 * should be used.
 			 */
-			'enable_ui': true
+			'enable_ui': true,
+
+			/**
+			 * A positive number that tells how much of a difference should be
+			 * considered significative.
+			 */
+			'diffThreshold': 0.00
 		}
 	});
 

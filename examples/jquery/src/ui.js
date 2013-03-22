@@ -52,7 +52,7 @@
 				'<tr>' +
 					'<td class="number"></td>' +
 					'<td class="name"></td>' +
-					'<td class="hz_a"></td>' +
+					'<td class="hz_a"><abbr></abbr></td>' +
                     '<td class="hz_b"><i class="icon-time"></i></td>' +
 					'<td class="diff"><i class="icon-time"></i></td>' +
 				'</tr>');
@@ -60,9 +60,13 @@
 			$template.attr('id', event.target.id);
 			$template.find('.number').text(event.target.id);
 			$template.find('.name').text(event.target.name);
-			$template.find('.hz_a')
+			$template.find('.hz_a abbr')
 				.text(humanize.numberFormat(event.target.hz / 1000.0))
-				.attr('data-value', event.target.hz);
+				.attr('title', event.target.hz);
+
+			if (event.target.hz == 0) {
+				$template.addClass('warning');
+			}
 
 			$('#tests tbody').append($template);
 			$('#csv').append(
@@ -75,18 +79,25 @@
 			console.log("window.ui.onCycleB");
 
 			var $row = $('#tests').find('tr#' + event.target.id),
-			    hz_a = parseFloat($row.find('td.hz_a').attr('data-value')),
+				$hz_b_abbr = $('<abbr/>'),
+				$percent_abbr = $('<abbr/>'),
+			    hz_a = parseFloat($row.find('td.hz_a abbr').attr('title')),
 				hz_b = event.target.hz,
-				diff = humanize.numberFormat((hz_a - hz_b) / hz_a);
+				diff = humanize.numberFormat((hz_a - hz_b) / hz_a * 100);
 
-			$row.find('td.hz_b')
+			$hz_b_abbr
 				.text(humanize.numberFormat(hz_b / 1000.0))
-				.attr('data-value', hz_b);
+				.attr('title', hz_b);
 
-			$row.find('td.diff').text(diff + '%');
-			if (diff > 0) {
+			$row.find('td.hz_b').html($hz_b_abbr);
+
+			$percent_abbr
+				.text(diff + '%')
+				.attr('title', diff);
+			$row.find('td.diff').html($percent_abbr);
+			if (diff > QUnit.getPerfect().options.diffThreshold) {
 				$row.addClass('success');
-			} else if (diff < 0) {
+			} else if (diff < -QUnit.getPerfect().options.diffThreshold) {
 				$row.addClass('error');
 			}
 		},
