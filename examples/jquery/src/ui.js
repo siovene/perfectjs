@@ -1,7 +1,7 @@
-;(function(window, undefined) {
+;(function(window, $, undefined) {
 	$(function() {
 		$('#run').click(function() {
-			jQuerySuiteGlobals.perfect.run();
+			QUnit.runPerfect();
 		});
 
 		$('#toggleCSV button').click(function() {
@@ -18,8 +18,8 @@
 		onStart: function(event, suite) {
 			console.log("window.ui.onStart");
 			$('#status #progress #total').text(suite.length);
-			$('#status #comparing #a').text(jQuerySuiteGlobals.perfect.options.a);
-			$('#status #comparing #b').text(jQuerySuiteGlobals.perfect.options.b);
+			$('#status #comparing #a').text(QUnit.getPerfect().options.a);
+			$('#status #comparing #b').text(QUnit.getPerfect().options.b);
 
 			$('#opsPerSec').text(Benchmark.options.maxTime);
 			$('#estimatedTime').text(suite.length * Benchmark.options.maxTime);
@@ -99,4 +99,4 @@
 			$('#toggleCSV').show();
 		}
 	};
-}(this));
+}(this, jQuery));

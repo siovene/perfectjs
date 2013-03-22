@@ -45,3 +45,7 @@
 #comparing {
 	font-size: 85%;
 }
+
+iframe {
+	display: none;
+}

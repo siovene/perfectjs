@@ -56,6 +56,8 @@
 		};
 
 		return {
+			/* QUnit stubs and mocks
+			 ***********************/
 			module: function(name, env) {},
 
 			test: function(name, expected, fn) {
@@ -67,20 +69,44 @@
 			},
 
 			asyncTest: function(name, expected, fn) {
-				return this.test(name, expected, fn);
+				return test(name, expected, fn);
 			},
 
-			initPerfect: function() {
+			start: function() {},
+			stop: function() {},
+			done: function() {},
+			expect: function() {},
+			ok: function() {},
+			equal: function() {},
+			deepEqual: function() {},
+			strictEqual: function() {},
+			raises: function(fn) { fn(); },
+
+			/* Fake data
+			 ***********/
+			config: {
+				urlConfig: []
 			},
 
-			runPerfect: function(options) {
+			/* Perfect functions
+			 *******************/
+			getPerfect: function() {
+                return _priv.perfect;
+			},
+
+			initPerfect: function(options) {
 				if (_priv.perfect === null) {
 					_priv.perfect = new Perfect();
 					_priv.perfect.options.suite = new Benchmark.Suite();
 				}
 
 				_priv.perfect.setOptions(options);
+			},
 
+			runPerfect: function(options) {
+				if (options !== undefined) {
+					this.initPerfect(options);
+				}
 				return _priv.perfect.run();
 			}
 		};

@@ -97,12 +97,35 @@
 		<script src="lib/jquery-1.8.3.min.js"></script>
 
 		<script src="../../perfect.js"></script>
+		<script src="../../perfect-qunit.js"></script>
 
 		<script src="lib/humanize.js"></script>
 
 		<script srC="lib/bootstrap/js/bootstrap.min.js"></script> <!-- affix -->
 
 		<script src="src/ui.js"></script>
-		<script src="src/suite.js"></script>
+
+		<script type="text/javascript">
+			QUnit.initPerfect({
+				name: 'jQuery Performance Regression Tests',
+				a: 'lib/jquery-1.8.3.min.js',
+				b: 'lib/jquery-1.9.1.min.js',
+
+				start: ui.onStart,
+				cycle: ui.onCycle,
+				complete: ui.onComplete,
+
+				cycle_a: ui.onCycleA,
+				cycle_b: ui.onCycleB,
+
+				lazyload_a: false,
+				enable_ui: false
+			});
+		</script>
+
+		<!-- files copied from jquery unit tests -->
+		<script src="data/testrunner.js"></script>
+		<script src="data/testinit.js"></script>
+		<script src="src/core.js"></script>
 	</body>
 </html>
