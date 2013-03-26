@@ -64,7 +64,7 @@
 				.text(humanize.numberFormat(event.target.hz / 1000.0))
 				.attr('title', event.target.hz);
 
-			if (event.target.hz == 0) {
+			if (event.target.hz === 0) {
 				$template.addClass('warning');
 			}
 
