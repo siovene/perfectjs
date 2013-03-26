@@ -65,11 +65,11 @@
 					fn = expected;
 				}
 
-				_priv.perfect.options.suite.add(name, fn);
+				_priv.perfect.add(name, fn);
 			},
 
 			asyncTest: function(name, expected, fn) {
-				return test(name, expected, fn);
+				return this.test(name, expected, fn);
 			},
 
 			start: function() {},

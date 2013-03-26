@@ -50,14 +50,10 @@
 			return new Perfect(options);
 		}
 
-		self.runOptions = {async: true};
-		self.setOptions(options);
-	}
+		self.runOptions = {
+			async: true
+		};
 
-	/* ---------------------------------------------------------------------- */
-	/* Options and other data. */
-
-	_.extend(Perfect.prototype, {
 		/**
 		 * The default options copied by perfect instances.
 		 *
@@ -65,7 +61,7 @@
 		 * @memberOf Perfect
 		 * @type Object
 		 */
-		'options': {
+		self.options = {
 			/**
 			 * The name of the testing group.
 			 *
@@ -89,6 +85,25 @@
 			 * @type String
 			 */
 			'b': undefined,
+
+			/**
+			 * Only the tests whose names are in this list will be executed.
+			 * If the list is empty, then all tests will be executed, with the
+			 * exception of those listed in the `exclude` option.
+			 *
+			 * @memberOf Perfect.options
+			 * @type Array
+			 */
+			'include': [],
+
+			/**
+			 * Tests to be excluded. This options is taken into consideration
+			 * only if the `include` option is empty.
+			 *
+			 * @memberOf Perfect.options
+			 * @type Array
+			 */
+			'exclude': [],
 
 			/**
 			 * The Benchmarkjs Suite to run against the library.
@@ -183,12 +198,28 @@
 			 */
 			'diffThreshold': 0.00
 		}
-	});
+
+		self.setOptions(options);
+	}
+
 
 	/* ---------------------------------------------------------------------- */
 	/* Public functions. */
 
 	_.extend(Perfect.prototype, {
+		/** Adds a test to the suite.
+		 *
+		 * @memberOf Perfect
+		 */
+		add: function(name, fn) {
+			if (!this._testIncluded(name)) {
+				console.log("Perfect.add: ignoring excluded test: " + name);
+				return;
+			}
+
+			this.options.suite.add(name, fn);
+		},
+
 		/**
 		 * Runs the suite against both versions of the target library.
 		 *
@@ -217,7 +248,7 @@
 		setOptions: function(options) {
 			var self = this;
 
-			_.extend(Perfect.prototype.options, options);
+			_.extend(self.options, options);
 
 			if (self.options.suite !== undefined) {
 				self._bindListeners({
@@ -240,6 +271,14 @@
 	/* Private functions. */
 
 	_.extend(Perfect.prototype, {
+		_testIncluded: function(name) {
+			if (_.indexOf(this.options.include, name) >= 0) return true;
+			if (this.options.include.length === 0 &&
+				_.indexOf(this.options.exclude, name) < 0) return true;
+
+			return false;
+		},
+
 		_bindListeners: function(data) {
 			var self = this;
 

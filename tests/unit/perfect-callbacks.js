@@ -1,11 +1,9 @@
 $(function () {
-	module("perfect-callbacks")
+	module("perfect-callbacks");
 
 	asyncTest("should get all callbacks called", 10, function () {
 		var suite = new Benchmark.Suite(),
 		    perfect = new Perfect();
-
-		suite.add("test", function() {});
 
 		perfect.setOptions({
 			a: 'lib/a.js',
@@ -44,6 +42,49 @@ $(function () {
 			}
 		});
 
+		perfect.add("test", function() {});
 		perfect.run();
-	})
-})
+	});
+
+	asyncTest("include option", 1, function() {
+		var suite = new Benchmark.Suite(),
+		    perfect = new Perfect();
+
+		perfect.setOptions({
+			a: 'lib/a.js',
+			b: 'lib/b.js',
+			include: ['test1'],
+			enable_ui: false,
+			suite: suite,
+			cycle_a: function(ev, suite) {
+				equal(ev.target.name, 'test1', "test1 was executed");
+				start();
+			}
+		});
+
+		perfect.add('test2', function() {});
+		perfect.add('test1', function() {});
+		perfect.run();
+	});
+
+	asyncTest("exclude option", 1, function() {
+		var suite = new Benchmark.Suite(),
+		    perfect = new Perfect();
+
+		perfect.setOptions({
+			a: 'lib/a.js',
+			b: 'lib/b.js',
+			exclude: ['test2'],
+			enable_ui: false,
+			suite: suite,
+			cycle_a: function(ev, suite) {
+				equal(ev.target.name, 'test1');
+				start();
+			}
+		});
+
+		perfect.add('test2', function() {});
+		perfect.add('test1', function() {});
+		perfect.run();
+	});
+});
