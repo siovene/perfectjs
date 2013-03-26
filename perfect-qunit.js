@@ -69,7 +69,7 @@
 			},
 
 			asyncTest: function(name, expected, fn) {
-				return this.test(name, expected, fn);
+				return test(name, expected, fn);
 			},
 
 			start: function() {},
