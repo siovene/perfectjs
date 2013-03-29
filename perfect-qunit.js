@@ -61,7 +61,7 @@
 			module: function(name, env) {},
 
 			test: function(name, expected, fn) {
-				if (arguments.length == 2) {
+				if (fn === undefined) {
 					fn = expected;
 				}
 
