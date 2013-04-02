@@ -214,10 +214,11 @@
 		add: function(name, fn) {
 			if (!this._testIncluded(name)) {
 				console.log("Perfect.add: ignoring excluded test: " + name);
-				return;
+				return this;
 			}
 
 			this.options.suite.add(name, fn);
+			return this;
 		},
 
 		/**
