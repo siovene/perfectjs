@@ -21,9 +21,6 @@
 			$('#status #comparing #a').text(QUnit.getPerfect().options.a);
 			$('#status #comparing #b').text(QUnit.getPerfect().options.b);
 
-			$('#opsPerSec').text(Benchmark.options.maxTime);
-			$('#estimatedTime').text(suite.length * Benchmark.options.maxTime);
-
 			$('#progress').removeClass('hidden');
 			$('#starting').removeClass('hidden');
 			$('#status').removeClass('hidden');
