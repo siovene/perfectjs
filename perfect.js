@@ -439,7 +439,7 @@
 				.text(hz_b / 1000.0)
 				.attr('data-value', hz_b);
 
-			$row.find('td.diff').text(diff + '%');
+			$row.find('td.diff').text(diff*100 + '%');
 		},
 
 		_onCompleteB: function(event) {
