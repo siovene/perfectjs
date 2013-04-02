@@ -54,7 +54,7 @@
 					'<td class="name"></td>' +
 					'<td class="hz_a"><abbr></abbr></td>' +
                     '<td class="hz_b"><i class="icon-time"></i></td>' +
-					'<td class="diff"><i class="icon-time"></i></td>' +
+					'<td class="change"><i class="icon-time"></i></td>' +
 				'</tr>');
 
 			$template.attr('id', event.target.id);
@@ -83,21 +83,21 @@
 				$percent_abbr = $('<abbr/>'),
 			    hz_a = parseFloat($row.find('td.hz_a abbr').attr('title')),
 				hz_b = event.target.hz,
-				diff = humanize.numberFormat((hz_a - hz_b) / hz_a * 100);
+				change = humanize.numberFormat((hz_b - hz_a) / hz_a * 100);
 
 			$hz_b_abbr
-				.text(humanize.numberFormat(hz_b / 1000.0))
+				.text(humanize.numberFormat(hz_b / 1000.0) + " (" + event.target.count + ")")
 				.attr('title', hz_b);
 
 			$row.find('td.hz_b').html($hz_b_abbr);
 
 			$percent_abbr
-				.text(diff + '%')
-				.attr('title', diff);
-			$row.find('td.diff').html($percent_abbr);
-			if (diff > QUnit.getPerfect().options.diffThreshold) {
+				.text(change + '%')
+				.attr('title', change);
+			$row.find('td.change').html($percent_abbr);
+			if (change > QUnit.getPerfect().options.changeThreshold) {
 				$row.addClass('success');
-			} else if (diff < -QUnit.getPerfect().options.diffThreshold) {
+			} else if (change < -QUnit.getPerfect().options.changeThreshold) {
 				$row.addClass('error');
 			}
 		},

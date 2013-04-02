@@ -193,10 +193,10 @@
 			'enable_ui': true,
 
 			/**
-			 * A positive number that tells how much of a difference should be
+			 * A positive number that tells how much of a change should be
 			 * considered significative.
 			 */
-			'diffThreshold': 0.00
+			'changeThreshold': 0.00
 		}
 
 		self.setOptions(options);
@@ -405,8 +405,10 @@
 					'<td class="number"></td>' +
 					'<td class="name"></td>' +
 					'<td class="hz_a"></td>' +
-                    '<td class="hz_b">...</td>' +
-					'<td class="diff">...</td>' +
+					'<td class="count_a"></td>' +
+					'<td class="hz_b">...</td>' +
+					'<td class="count_b">...</td>' +
+					'<td class="change">...</td>' +
 				'</tr>');
 
 			$template.attr('id', event.target.id);
@@ -415,6 +417,7 @@
 			$template.find('.hz_a')
 				.text(event.target.hz / 1000.0)
 				.attr('data-value', event.target.hz);
+			$template.find('.count_a').text(event.target.count);
 
 			$('table#perfect tbody').append($template);
 		},
@@ -433,13 +436,13 @@
 			var $row = $('table#perfect').find('tr#' + event.target.id),
 			    hz_a = parseFloat($row.find('td.hz_a').attr('data-value')),
 				hz_b = event.target.hz,
-				diff = (hz_a - hz_b) / hz_a;
+				change = (hz_b - hz_a) / hz_a * 100;
 
 			$row.find('td.hz_b')
 				.text(hz_b / 1000.0)
 				.attr('data-value', hz_b);
-
-			$row.find('td.diff').text(diff*100 + '%');
+			$row.find('td.count_b').text(event.target.count);
+			$row.find('td.change').text(change + '%');
 		},
 
 		_onCompleteB: function(event) {
