@@ -285,9 +285,11 @@
 
 			_.map(data, function(listeners, eventName) {
 				_.each(listeners, function(i) {
-					self.options.suite.on(eventName, self[i].bind(self));
+					self.options.suite.on(eventName, _.bind(self[i], self));
 					if (self.options.enable_ui) {
-						self.options.suite.on(eventName, self.UI[i].bind(self));
+						self.options.suite.on(
+							eventName,
+							_.bind(self.UI[i], self));
 					}
 				});
 			});

@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/siovene/perfectjs.png)](http://travis-ci.org/siovene/perfectjs)
+
 # Perfect.js #
 **PERF** ormance
 **E** valuating
