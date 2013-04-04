@@ -1,7 +1,7 @@
 $(function () {
 	module("perfect-callbacks");
 
-	asyncTest("should get all callbacks called", 10, function () {
+	asyncTest("should get all callbacks called", function () {
 		var suite = new Benchmark.Suite(),
 		    perfect = new Perfect();
 
@@ -46,7 +46,7 @@ $(function () {
 		perfect.run();
 	});
 
-	asyncTest("include option", 1, function() {
+	asyncTest("include option", function() {
 		var suite = new Benchmark.Suite(),
 		    perfect = new Perfect();
 
@@ -67,7 +67,7 @@ $(function () {
 		perfect.run();
 	});
 
-	asyncTest("exclude option", 1, function() {
+	asyncTest("exclude option", function() {
 		var suite = new Benchmark.Suite(),
 		    perfect = new Perfect();
 
