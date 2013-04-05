@@ -100,9 +100,12 @@ Please remember to run `grunt lint` before submitting patches.
 
 ## Testing ##
 `Perfect` ships with unit tests. Please run `npm install` to install
-the required dependencies, and then `node tests/server.js`.
+the required dependencies, install `phantomjs` using your distribution's
+package manager, and then do:
 
-Finally, point your browser to http://localhost:3000/tests/ .
+```
+phantomjs tests/phantomjs-index.js tests/index.html
+```
 
 ## Authors and contributors ##
 Salvatore Iovene <salvatore.iovene@intel.com>
