@@ -461,7 +461,7 @@
 	    define.amd) {
 		// define as an anonymous module so, through path mapping, it can be
 		// aliased
-		define('perfect', ['underscore', 'LazyLoad', 'jQuery'], function() {
+		define('perfect', ['lodash', 'LazyLoad', 'jQuery'], function() {
 			return Perfect;
 		});
 	}

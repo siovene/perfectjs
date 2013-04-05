@@ -89,7 +89,7 @@ Please see the `examples/` directory.
 ## Dependencies ##
 `Perfect` needs:
  * Benchmarkjs: http://benchmarkjs.com/
- * Underscorejs: http://underscorejs.org/
+ * lodash: http://lodash.com/
  * LazyLoad: https://github.com/rgrove/lazyload/
  * jQuery: http://jquery.org/ (only if you want to use Perfect.UI)
 
