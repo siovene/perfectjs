@@ -417,7 +417,8 @@
 			$template.find('.number').text(event.target.id);
 			$template.find('.name').text(event.target.name);
 			$template.find('.hz_a')
-				.text(event.target.hz / 1000.0)
+				.html(event.target.hz / 1000.0 +
+				      " (&plusmn;" + event.target.stats.rme + "%)")
 				.attr('data-value', event.target.hz);
 			$template.find('.count_a').text(event.target.count);
 
@@ -441,7 +442,8 @@
 				change = (hz_b - hz_a) / hz_a * 100;
 
 			$row.find('td.hz_b')
-				.text(hz_b / 1000.0)
+				.html(hz_b / 1000.0 +
+				      " (&plusmn;" + event.target.stats.rme + "%)")
 				.attr('data-value', hz_b);
 			$row.find('td.count_b').text(event.target.count);
 			$row.find('td.change').text(change + '%');
