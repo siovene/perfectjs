@@ -58,7 +58,9 @@
 			$template.find('.number').text(event.target.id);
 			$template.find('.name').text(event.target.name);
 			$template.find('.hz_a abbr')
-				.text(humanize.numberFormat(event.target.hz / 1000.0))
+				.html(
+					humanize.numberFormat(event.target.hz / 1000.0) +
+					'<span class="rme">&plusmn;' + humanize.numberFormat(event.target.stats.rme) + '%</span>')
 				.attr('title', event.target.hz);
 
 			if (event.target.hz === 0) {
@@ -83,7 +85,9 @@
 				change = humanize.numberFormat((hz_b - hz_a) / hz_a * 100);
 
 			$hz_b_abbr
-				.text(humanize.numberFormat(hz_b / 1000.0) + " (" + event.target.count + ")")
+				.html(
+					humanize.numberFormat(hz_b / 1000.0) +
+					'<span class="rme">&plusmn;' + humanize.numberFormat(event.target.stats.rme) + '%</span>')
 				.attr('title', hz_b);
 
 			$row.find('td.hz_b').html($hz_b_abbr);

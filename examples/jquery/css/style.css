@@ -49,3 +49,8 @@
 iframe {
 	display: none;
 }
+
+.rme {
+	color: gray;
+	margin-left: 10px;
+}
