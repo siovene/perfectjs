@@ -87,4 +87,25 @@ $(function () {
 		perfect.add('test1', function() {});
 		perfect.run();
 	});
+
+	asyncTest("teardown", function() {
+		var suite = new Benchmark.Suite(),
+		    perfect = new Perfect();
+
+		perfect.setOptions({
+			a: 'lib/a.js',
+			b: 'lib/b.js',
+			enable_ui: false,
+			suite: suite
+		});
+
+		perfect.add(
+			'test1',
+			function() {},
+			function(event) {
+				ok(true, "the teardown function was run");
+				start();
+			});
+		perfect.run();
+	});
 });

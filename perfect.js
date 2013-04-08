@@ -55,6 +55,15 @@
 		};
 
 		/**
+		 * A dictionary comprising of a test name and a function that cleans up
+		 * after the test has cycled.
+		 *
+		 * @memberOf Perfect
+		 * @type Object
+		 */
+		self.teardownFunctions = {};
+
+		/**
 		 * The default options copied by perfect instances.
 		 *
 		 * @static
@@ -211,13 +220,27 @@
 		 *
 		 * @memberOf Perfect
 		 */
-		add: function(name, fn) {
+		add: function(name, fn, teardown) {
 			if (!this._testIncluded(name)) {
 				console.log("Perfect.add: ignoring excluded test: " + name);
 				return this;
 			}
 
 			this.options.suite.add(name, fn);
+
+			if (teardown !== undefined) {
+				this.addTeardown(name, teardown);
+			}
+
+			return this;
+		},
+
+		/** Add a "teardown" method to a test.
+		 *
+		 * @memberOf Perfect
+		 */
+		addTeardown: function(name, fn) {
+			this.teardownFunctions[name] = fn;
 			return this;
 		},
 
@@ -306,6 +329,12 @@
 			console.log("Perfect._onCycle: entered.");
 			if (_.isFunction(this.options.cycle)) {
 				this.options.cycle(event, this.options.suite);
+			}
+
+			if (event.target.name in this.teardownFunctions) {
+				if (_.isFunction(this.teardownFunctions[event.target.name])) {
+					this.teardownFunctions[event.target.name](event);
+				}
 			}
 		},
 
