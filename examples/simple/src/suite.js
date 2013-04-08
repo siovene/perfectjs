@@ -2,7 +2,11 @@ $(function() {
 	var suite = new Benchmark.Suite(),
 	    perfect = new Perfect();
 
-	suite.add( "fib(4)", function() {
+	suite
+	.add( "fib_unchanged(8)", function() {
+		fib_unchanged(8);
+	})
+	.add( "fib(4)", function() {
 		fib(4);
 	})
 	.add( "fib(8)", function() {
