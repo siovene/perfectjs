@@ -2,21 +2,31 @@
 <html>
 	<head>
 		<title>Simple Performance Test Suite</title>
+		<link rel="stylesheet" type="text/css" href="../../perfect.css" />
 	</head>
 
 	<body>
 		<h1>Simple Performance Tests</h1>
 		<p>Compares a recursive and a fast iterative Fibonacci sequence generators.</p>
 
-		<table id="perfect" border="1" cellpadding="10">
+		<table id="perfect">
 			<thead>
+				<tr>
+					<th></th>
+					<th></th>
+					<th colspan="3">A</th>
+					<th colspan="3">B</th>
+					<th></th>
+				</th>
 				<tr>
 					<th>#</th>
 					<th>Test</th>
-					<th>Kilo ops/sec 'A'</th>
-					<th>Count 'A'</th>
-					<th>Kilo ops/sec 'B'</th>
-					<th>Count 'B'</th>
+					<th>Ops/s</th>
+					<th>Error</th>
+					<th>Count</th>
+					<th>Ops/s</th>
+					<th>Error</th>
+					<th>Count</th>
 					<th>Diff</th>
 				</tr>
 			</thead>

@@ -407,8 +407,10 @@
 					'<td class="number"></td>' +
 					'<td class="name"></td>' +
 					'<td class="hz_a"></td>' +
+					'<td class="rme_a"></td>' +
 					'<td class="count_a"></td>' +
 					'<td class="hz_b">...</td>' +
+					'<td class="rme_b"></td>' +
 					'<td class="count_b">...</td>' +
 					'<td class="change">...</td>' +
 				'</tr>');
@@ -417,10 +419,12 @@
 			$template.find('.number').text(event.target.id);
 			$template.find('.name').text(event.target.name);
 			$template.find('.hz_a')
-				.html(event.target.hz / 1000.0 +
-				      " (&plusmn;" + event.target.stats.rme + "%)")
+				.html((event.target.hz / 1000.0).toFixed(2) + "K")
 				.attr('data-value', event.target.hz);
-			$template.find('.count_a').text(event.target.count);
+			$template.find('.rme_a')
+				.html('&plusmn; ' + event.target.stats.rme.toFixed(2) + "%")
+				.attr('data-value', event.target.stats.rme);
+			$template.find('.count_a').text((event.target.count / 1000.0).toFixed(2) + "K");
 
 			$('table#perfect tbody').append($template);
 		},
@@ -439,14 +443,19 @@
 			var $row = $('table#perfect').find('tr#' + event.target.id),
 			    hz_a = parseFloat($row.find('td.hz_a').attr('data-value')),
 				hz_b = event.target.hz,
-				change = (hz_b - hz_a) / hz_a * 100;
+				change = (hz_b - hz_a) / hz_a * 100,
+				rme_a = parseFloat($row.find('.rme_a').attr('data-value')),
+				rme_b = event.target.stats.rme,
+				change_rme = rme_a + rme_b;
 
 			$row.find('td.hz_b')
-				.html(hz_b / 1000.0 +
-				      " (&plusmn;" + event.target.stats.rme + "%)")
+				.html((hz_b / 1000.0).toFixed(2) + "K")
 				.attr('data-value', hz_b);
-			$row.find('td.count_b').text(event.target.count);
-			$row.find('td.change').text(change + '%');
+			$row.find('td.rme_b')
+				.html('&plusmn; ' + rme_b.toFixed(2) + "%")
+				.attr('data-value', rme_b);
+			$row.find('td.count_b').text((event.target.count / 1000.0).toFixed(2) + "K");
+			$row.find('td.change').html(change.toFixed(2) + '% &plusmn; ' + change_rme.toFixed(2));
 		},
 
 		_onCompleteB: function(event) {
