@@ -6,8 +6,9 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: [
-          'grunt.js',
-          'perfect.js',
+          'Gruntfile.js',
+          'perfect-core.js',
+          'perfect-runner.js',
           'perfect-qunit.js',
           'examples/**/src/*.js'
         ],
@@ -17,10 +18,10 @@ module.exports = function(grunt) {
 
     jshint: {
       all: [
-        'grunt.js',
-        'perfect.js',
-        'perfect-qunit.js',
-        'examples/**/src/*.js'
+        'Gruntfile.js',
+        'perfect-core.js',
+        'perfect-runner.js',
+        'perfect-qunit.js'
       ],
       options: {
         "validthis": true,
@@ -41,7 +42,7 @@ module.exports = function(grunt) {
 
     uglify: {
       perfectjs: {
-        src: ['perfect.js'],
+        src: ['perfect-core.js', 'perfect-runner.js'],
         dest: 'perfect.min.js'
       },
       perfect_qunit: {
