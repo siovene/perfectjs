@@ -6,6 +6,14 @@ test("Unit Testing Environment", function () {
 	ok( !isLocal, "Unit tests are not ran from file:// (especially in Chrome. If you must test from file:// with Chrome, run it with the --allow-file-access-from-files flag!)" );
 });
 
+asyncTest("wait", function() {
+	function fib(n) {
+		return n < 2 ? n : fib(n-1) + fib(n-2);
+	}
+
+	fib(12);
+});
+
 test("Basic requirements", function() {
 	expect(7);
 	ok( Array.prototype.push, "Array.push()" );

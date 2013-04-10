@@ -64,6 +64,12 @@
 		self.teardownFunctions = {};
 
 		/**
+		 * Remember the events for 'a' and 'b', so they can be compared later.
+		 */
+		self.benchmarksA = {};
+		self.benchmarksB = {};
+
+		/**
 		 * The default options copied by perfect instances.
 		 *
 		 * @static
@@ -354,6 +360,9 @@
 
 		_onCycleA: function(event, suite) {
 			console.log("Perfect._onCycleA: entered.");
+
+			this.benchmarksA[event.target.name] = event.target;
+
 			if (_.isFunction(this.options.cycle_a)) {
 				this.options.cycle_a(event, this.options.suite);
 			}
@@ -393,6 +402,10 @@
 
 		_onCycleB: function(event, suite) {
 			console.log("Perfect._onCycleB: entered.");
+
+			this.benchmarksB[event.target.name] = event.target;
+			console.log(event.target.compare(this.benchmarksA[event.target.name]));
+
 			if (_.isFunction(this.options.cycle_b)) {
 				this.options.cycle_b(event, this.options.suite);
 			}
