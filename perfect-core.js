@@ -100,7 +100,7 @@
 				},
 
 				run: function(options) {
-					_p.mediator.publish("log", "Perfect", "Running 'a'...");
+					_p.mediator.publish("log", "Perfect", "Running a...");
 					_p.a.run();
 				},
 
