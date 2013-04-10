@@ -32,6 +32,10 @@
 	var perfect = (function(options) {
 		var _p = {
 			options: {},
+
+			benchesA: {},
+			benchesB: {},
+
 			f: {
 				log: function(level, scope, msg, channel) {
 					var _level, _scope, _msg, _content;
@@ -109,6 +113,39 @@
 				},
 
 				onCycle: function(role, e) {
+					var targetBenches = role == 'a' ? _p.benchesA : _p.benchesB;
+					targetBenches[e.target.name] = e.target;
+
+					if (role == 'b') {
+						var targetA = _p.benchesA[e.target.name];
+						var targetB = e.target;
+						var diff = targetB.compare(targetA);
+						var change = (targetB.hz - targetA.hz) / targetA.hz * 100;
+
+						_p.mediator.publish(
+							"log",
+							"Perfect",
+							"The percentage change is: " + change.toFixed(2) + "%");
+
+						if (diff < 0) {
+							_p.mediator.publish(
+								"log",
+								"Perfect",
+								"'b' can be considered faster than 'a'");
+						} else if (diff === 0) {
+							_p.mediator.publish(
+								"log",
+								"Perfect",
+								"There is no statistically significative performance " +
+								"difference between 'a' and 'b'");
+						} else {
+							_p.mediator.publish(
+								"log",
+								"Perfect",
+								"'a' can be considered faster than 'b'");
+						}
+					}
+
 					_p.mediator.publish("log", "Perfect", "Cycled " + role);
 				},
 
