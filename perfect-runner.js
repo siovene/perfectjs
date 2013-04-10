@@ -150,7 +150,7 @@
 				}
 
 				if (_p.suite === undefined) {
-					_p.suite = new Benchmark.Suite;
+					_p.suite = new Benchmark.Suite();
 				}
 
 				if (teardown === undefined) {
