@@ -10,6 +10,7 @@ module.exports = function(grunt) {
           'perfect-core.js',
           'perfect-runner.js',
           'perfect-qunit.js',
+          'perfect-ui.js',
           'examples/**/src/*.js'
         ],
         tasks: ['default']
@@ -21,7 +22,8 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'perfect-core.js',
         'perfect-runner.js',
-        'perfect-qunit.js'
+        'perfect-qunit.js',
+        'perfect-ui.js'
       ],
       options: {
         "validthis": true,
@@ -48,27 +50,11 @@ module.exports = function(grunt) {
       perfect_qunit: {
         src: ['perfect-qunit.js'],
         dest: 'perfect-qunit.min.js'
-      }
-    },
-
-    qunit: {
-      all: {
-        options: {
-          urls: [
-            'http://localhost:3000/tests/index.html'
-          ]
-        }
-      }
-    },
-
-    connect: {
-      server: {
-        options: {
-          hostname: '0.0.0.0',
-          port: 3000,
-          base: '.'
-        }
-      }
+      },
+      perfect_ui: {
+        src: ['perfect-ui.js'],
+        dest: 'perfect-ui.min.js'
+      },
     }
   });
 
