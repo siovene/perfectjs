@@ -93,7 +93,21 @@
 				 * @memberOf PerfectRunner.options
 				 * @type Object
 				 */
-				'mediator': undefined
+				'mediator': {
+					publish: function() {}
+				},
+
+				/**
+				 * Callbacks for the start, cycle and complete events.
+				 *
+				 * @memberOf PerfectRunner.options
+				 * @type Object
+				 */
+				'callbacks': {
+					'start': undefined,
+					'cycle': undefined,
+					'complete': undefined
+				}
 			},
 
 			f: {
@@ -117,6 +131,7 @@
 				onStart: function() {
 					_p.options.mediator.publish("log", "PerfectRunner", "Started");
 					_p.options.mediator.publish("start", _p.options.role);
+					_.isFunction(_p.options.callbacks.start) && _p.options.callbacks.start();
 				},
 
 				onCycle: function(e) {
@@ -127,11 +142,13 @@
 					_p.options.mediator.publish("log", "PerfectRunner", "Cycled");
 					_p.options.mediator.publish("log", "PerfectRunner", e.target);
 					_p.options.mediator.publish("cycle", _p.options.role, e);
+					_.isFunction(_p.options.callbacks.cycle) && _p.options.callbacks.cycle(e);
 				},
 
 				onComplete: function() {
 					_p.options.mediator.publish("log", "PerfectRunner", "Completed");
 					_p.options.mediator.publish("complete", _p.options.role);
+					_.isFunction(_p.options.callbacks.complete) && _p.options.callbacks.complete();
 				}
 			}
 		};

@@ -31,7 +31,54 @@
 ;(function(window, _, Mediator, PerfectRunner, undefined) {
 	var perfect = (function(options) {
 		var _p = {
-			options: {},
+			options: {
+				/**
+				 * The path to the first version of the library to test.
+				 *
+				 * @memberOf Perfect.options
+				 * @type String
+				 */
+				'a': undefined,
+
+				/**
+				 * The path to the second version of the library to test.
+				 *
+				 * @memberOf Perfect.options
+				 * @type String
+				 */
+				'b': undefined,
+
+				/**
+				 * Only the tests whose names are in this list will be executed.
+				 * If the list is empty, then all tests will be executed, with the
+				 * exception of those listed in the `exclude` option.
+				 *
+				 * @memberOf Perfect.options
+				 * @type Array
+				 */
+				'include': [],
+
+				/**
+				 * Tests to be excluded. This options is taken into consideration
+				 * only if the `include` option is empty.
+				 *
+				 * @memberOf Perfect.options
+				 * @type Array
+				 */
+				'exclude': [],
+
+				/**
+				 * Callbacks for the start, cycle and complete events.
+				 *
+				 * @memberOf PerfectRunner.options
+				 * @type Object
+				 */
+				'callbacks': {
+					'start': undefined,
+					'cycle': undefined,
+					'complete': undefined
+				}
+			},
 
 			benchesA: {},
 			benchesB: {},
@@ -84,6 +131,8 @@
 						_p.a = new PerfectRunner({
 							target: _p.options.a,
 							role: 'a',
+							include: _p.options.include,
+							exclude: _p.options.exclude,
 							mediator: _p.mediator
 						});
 					}
@@ -92,6 +141,8 @@
 						_p.b = new PerfectRunner({
 							target: _p.options.b,
 							role: 'b',
+							include: _p.options.include,
+							exclude: _p.options.exclude,
 							mediator: _p.mediator
 						});
 					}
@@ -110,6 +161,12 @@
 
 				onStart: function(role) {
 					_p.mediator.publish("log", "Perfect", "Started " + role);
+					if (role == 'a') {
+						_.isFunction(_p.options.callbacks.start) && _p.options.callbacks.start();
+						_.isFunction(_p.options.callbacks.start_a) && _p.options.callbacks.start_a();
+					} else if (role == 'b') {
+						_.isFunction(_p.options.callbacks.start_b) && _p.options.callbacks.start_b();
+					}
 				},
 
 				onCycle: function(role, e) {
@@ -147,15 +204,26 @@
 					}
 
 					_p.mediator.publish("log", "Perfect", "Cycled " + role);
+
+					_.isFunction(_p.options.callbacks.cycle) && _p.options.callbacks.cycle(e);
+					if (role == 'a') {
+						_.isFunction(_p.options.callbacks.cycle_a) && _p.options.callbacks.cycle_a(e);
+					} else if (role == 'b') {
+						_.isFunction(_p.options.callbacks.cycle_b) && _p.options.callbacks.cycle_b(e);
+					}
 				},
 
 				onComplete: function(role) {
 					_p.mediator.publish("log", "Perfect", "Completed " + role);
+
 					if (role == 'a') {
 						_p.mediator.publish("log", "Perfect", "Running b...");
+						_.isFunction(_p.options.callbacks.complete_a) && _p.options.callbacks.complete_a();
 						_p.b.run();
 					} else if (role == 'b') {
 						_p.mediator.publish("log", "Perfect", "Completed all");
+						_.isFunction(_p.options.callbacks.complete_b) && _p.options.callbacks.complete_b();
+						_.isFunction(_p.options.callbacks.complete) && _p.options.callbacks.complete();
 					}
 				}
 			}
