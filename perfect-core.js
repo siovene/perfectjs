@@ -268,6 +268,8 @@
 					_p.f.init();
 					_p.a.add(name, fn, teardown);
 					_p.b.add(name, fn, teardown);
+
+					return this;
 				},
 
 				run: function(options) {
