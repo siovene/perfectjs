@@ -6,7 +6,7 @@
 	}
 
 	asyncTest("should get all callbacks called", function () {
-		expect(10); // 'cycle' gets to run twice, hence 9+1
+		expect(14); // 'cycle' gets to run twice, hence 12+2
 
 		var perfect = new Perfect({
 			a: 'lib/a.js',
@@ -14,42 +14,36 @@
 			callbacks: {
 				start: function() {
 					ok(true, "start callback called");
-					console.log(" -- start");
 				},
-				cycle: function() {
+				cycle: function(e) {
 					ok(true, "cycle callback called");
-					console.log(" -- cycle");
+					ok(e !== undefined, "event is available");
 				},
 				complete: function() {
 					ok(true, "complete callback called");
-					console.log(" -- complete");
 					start();
 				},
 
 				start_a: function() {
 					ok(true, "start_a callback called");
-					console.log(" -- start_a");
 				},
 				cycle_a: function(e) {
 					ok(true, "cycle_a callback called");
-					console.log(" -- cycle_a");
+					ok(e !== undefined, "event is available");
 				},
 				complete_a: function() {
 					ok(true, "complete_a callback called");
-					console.log(" -- complete_a");
 				},
 
 				start_b: function() {
 					ok(true, "start_b callback called");
-					console.log(" -- start_b");
 				},
 				cycle_b: function(e) {
 					ok(true, "cycle_b callback called");
-					console.log(" -- cycle_b");
+					ok(e !== undefined, "event is available");
 				},
 				complete_b: function() {
 					ok(true, "complete_b callback called");
-					console.log(" -- complete_b");
 				}
 			}
 		});

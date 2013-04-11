@@ -28,7 +28,7 @@
  * ***************************************************************************
  */
 
-;(function(window, _, Mediator, PerfectRunner, undefined) {
+;(function(window, _, Mediator, PerfectRunner, PerfectUI, undefined) {
 	var perfect = (function(options) {
 		var _p = {
 			options: {
@@ -70,14 +70,21 @@
 				/**
 				 * Callbacks for the start, cycle and complete events.
 				 *
-				 * @memberOf PerfectRunner.options
+				 * @memberOf Perfect.options
 				 * @type Object
 				 */
 				'callbacks': {
 					'start': undefined,
 					'cycle': undefined,
 					'complete': undefined
-				}
+				},
+
+				/** Enables the in-built UI.
+				 *
+				 * @memberOf Perfect.options
+				 * @type Boolean
+				 */
+				'enable_ui': false
 			},
 
 			benchesA: {},
@@ -119,33 +126,142 @@
 				},
 
 				init: function() {
-					if (_p.mediator === undefined) {
-						_p.mediator = new Mediator();
-						_p.mediator.subscribe("log", _p.f.log);
-						_p.mediator.subscribe("start", _p.f.onStart);
-						_p.mediator.subscribe("cycle", _p.f.onCycle);
-						_p.mediator.subscribe("complete", _p.f.onComplete);
+					function createMediator() {
+						if (_p.mediator === undefined) {
+							_p.mediator = new Mediator();
+							_p.mediator.subscribe("log", _p.f.log, {priority: 10});
+							_p.mediator.subscribe("start", _p.f.onStart, {priority: 10});
+							_p.mediator.subscribe("cycle", _p.f.onCycle, {priority: 10});
+							_p.mediator.subscribe("complete", _p.f.onComplete, {priority: 10});
+						}
 					}
 
-					if (_p.a === undefined) {
-						_p.a = new PerfectRunner({
-							target: _p.options.a,
-							role: 'a',
-							include: _p.options.include,
-							exclude: _p.options.exclude,
-							mediator: _p.mediator
-						});
+					function createUI() {
+						if (_p.options.enable_ui && _p.ui === undefined) {
+							_p.ui = new PerfectUI();
+							_p.mediator.subscribe("start", _p.ui.start, {priority: 20});
+						}
 					}
 
-					if (_p.b === undefined) {
-						_p.b = new PerfectRunner({
-							target: _p.options.b,
-							role: 'b',
-							include: _p.options.include,
-							exclude: _p.options.exclude,
-							mediator: _p.mediator
-						});
+					function subscribeCallbacks() {
+						if (_p.callbacksSubscribed)
+							return;
+
+						/* Start
+						 * ***************************************************/
+
+						if (_.isFunction(_p.options.callbacks.start)) {
+							_p.mediator.subscribe("start", _p.options.callbacks.start, {
+								predicate: function(role) { return role == 'a'; },
+								priority: 30
+							});
+						}
+
+						if (_.isFunction(_p.options.callbacks.start_a)) {
+							_p.mediator.subscribe("start", _p.options.callbacks.start_a, {
+								predicate: function(role) { return role == 'a'; },
+								priority: 31
+							});
+						}
+
+						if (_.isFunction(_p.options.callbacks.start_b)) {
+							_p.mediator.subscribe("start", _p.options.callbacks.start_b, {
+								predicate: function(role) { return role == 'b'; },
+								priority: 32
+							});
+						}
+
+						/* Cycle
+						 * ***************************************************/
+
+						if (_.isFunction(_p.options.callbacks.cycle)) {
+							_p.mediator.subscribe("cycle",
+								function(role, e) {
+									_p.options.callbacks.cycle(e);
+								},
+								{
+									priority: 30
+								});
+						}
+
+						if (_.isFunction(_p.options.callbacks.cycle_a)) {
+							_p.mediator.subscribe("cycle",
+								function(role, e) {
+									_p.options.callbacks.cycle_a(e);
+								},
+								{
+									predicate: function(role, e) { return role == 'a'; },
+									priority: 31
+								});
+						}
+
+						if (_.isFunction(_p.options.callbacks.cycle_b)) {
+							_p.mediator.subscribe("cycle",
+								function(role, e) {
+									_p.options.callbacks.cycle_b(e);
+								},
+								{
+									predicate: function(role, e) { return role == 'b'; },
+									priority: 32
+								});
+						}
+
+						/* Complete
+						 * ***************************************************/
+
+						if (_.isFunction(_p.options.callbacks.complete)) {
+							_p.mediator.subscribe("complete", _p.options.callbacks.complete, {
+								predicate: function(role) { return role == 'b'; },
+								priority: 32
+							});
+						}
+
+						if (_.isFunction(_p.options.callbacks.complete_a)) {
+							_p.mediator.subscribe("complete", _p.options.callbacks.complete_a, {
+								predicate: function(role) { return role == 'a'; },
+								priority: 30
+							});
+						}
+
+						if (_.isFunction(_p.options.callbacks.complete_b)) {
+							_p.mediator.subscribe("complete", _p.options.callbacks.complete_b, {
+								predicate: function(role) { return role == 'b'; },
+								priority: 31
+							});
+						}
+
+						_p.callbacksSubscribed = true;
 					}
+
+					function createRunnerA() {
+						if (_p.a === undefined) {
+							_p.a = new PerfectRunner({
+								target: _p.options.a,
+								role: 'a',
+								include: _p.options.include,
+								exclude: _p.options.exclude,
+								mediator: _p.mediator
+							});
+						}
+					}
+
+					function createRunnerB() {
+						if (_p.b === undefined) {
+							_p.b = new PerfectRunner({
+								target: _p.options.b,
+								role: 'b',
+								include: _p.options.include,
+								exclude: _p.options.exclude,
+								mediator: _p.mediator
+							});
+						}
+					}
+
+					createMediator();
+					createUI();
+					subscribeCallbacks();
+					createRunnerA();
+					createRunnerB();
 				},
 
 				add: function(name, fn, teardown) {
@@ -161,12 +277,6 @@
 
 				onStart: function(role) {
 					_p.mediator.publish("log", "Perfect", "Started " + role);
-					if (role == 'a') {
-						_.isFunction(_p.options.callbacks.start) && _p.options.callbacks.start();
-						_.isFunction(_p.options.callbacks.start_a) && _p.options.callbacks.start_a();
-					} else if (role == 'b') {
-						_.isFunction(_p.options.callbacks.start_b) && _p.options.callbacks.start_b();
-					}
 				},
 
 				onCycle: function(role, e) {
@@ -204,13 +314,6 @@
 					}
 
 					_p.mediator.publish("log", "Perfect", "Cycled " + role);
-
-					_.isFunction(_p.options.callbacks.cycle) && _p.options.callbacks.cycle(e);
-					if (role == 'a') {
-						_.isFunction(_p.options.callbacks.cycle_a) && _p.options.callbacks.cycle_a(e);
-					} else if (role == 'b') {
-						_.isFunction(_p.options.callbacks.cycle_b) && _p.options.callbacks.cycle_b(e);
-					}
 				},
 
 				onComplete: function(role) {
@@ -218,12 +321,9 @@
 
 					if (role == 'a') {
 						_p.mediator.publish("log", "Perfect", "Running b...");
-						_.isFunction(_p.options.callbacks.complete_a) && _p.options.callbacks.complete_a();
 						_p.b.run();
 					} else if (role == 'b') {
 						_p.mediator.publish("log", "Perfect", "Completed all");
-						_.isFunction(_p.options.callbacks.complete_b) && _p.options.callbacks.complete_b();
-						_.isFunction(_p.options.callbacks.complete) && _p.options.callbacks.complete();
 					}
 				}
 			}
@@ -238,4 +338,4 @@
 	});
 
 	window.Perfect = perfect;
-}(this, _, Mediator, PerfectRunner));
+}(this, _, Mediator, PerfectRunner, PerfectUI));
