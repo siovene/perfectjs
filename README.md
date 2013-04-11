@@ -18,18 +18,13 @@ benchmarks on multiple versions of your library.
 The minimal working code you need to use `Perfect` resembles this:
 
 ```javascript
-var suite = new Benchmark.Suite(),
-    perfect = new Perfect();
-
-suite.add("some test", function() {
-	target_library.some_function();
+var perfect = new Perfect();
+	a: "lib/target_library_0.1.js",
+	b: "lib/target_library_0.2.js"
 });
 
-perfect.setOptions({
-	name: "My performance test",
-	a: "lib/target_library_0.1.js",
-	b: "lib/target_library_0.2.js",
-	suite: suite
+perfect.add("some test", function() {
+	target_library.some_function();
 });
 
 perfect.run();
