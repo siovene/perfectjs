@@ -1,4 +1,4 @@
-;(function (window, undefined) {
+;(function (window, Perfect, undefined) {
 	module("perfect-core");
 
 	function fn() {
@@ -113,4 +113,4 @@
 
 		perfect.run();
 	});
-}(this));
+}(this, Perfect));
