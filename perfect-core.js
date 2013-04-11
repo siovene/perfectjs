@@ -152,21 +152,21 @@
 
 						if (_.isFunction(_p.options.callbacks.start)) {
 							_p.mediator.subscribe("start", _p.options.callbacks.start, {
-								predicate: function(role) { return role == 'a'; },
+								predicate: function(role) { return role == 'a'; },
 								priority: 30
 							});
 						}
 
 						if (_.isFunction(_p.options.callbacks.start_a)) {
 							_p.mediator.subscribe("start", _p.options.callbacks.start_a, {
-								predicate: function(role) { return role == 'a'; },
+								predicate: function(role) { return role == 'a'; },
 								priority: 31
 							});
 						}
 
 						if (_.isFunction(_p.options.callbacks.start_b)) {
 							_p.mediator.subscribe("start", _p.options.callbacks.start_b, {
-								predicate: function(role) { return role == 'b'; },
+								predicate: function(role) { return role == 'b'; },
 								priority: 32
 							});
 						}
@@ -190,18 +190,18 @@
 									_p.options.callbacks.cycle_a(e);
 								},
 								{
-									predicate: function(role, e) { return role == 'a'; },
+									predicate: function(role, e) { return role == 'a'; },
 									priority: 31
 								});
 						}
 
 						if (_.isFunction(_p.options.callbacks.cycle_b)) {
 							_p.mediator.subscribe("cycle",
-								function(role, e) {
+								function(role, e) {
 									_p.options.callbacks.cycle_b(e);
 								},
 								{
-									predicate: function(role, e) { return role == 'b'; },
+									predicate: function(role, e) { return role == 'b'; },
 									priority: 32
 								});
 						}
@@ -211,21 +211,21 @@
 
 						if (_.isFunction(_p.options.callbacks.complete)) {
 							_p.mediator.subscribe("complete", _p.options.callbacks.complete, {
-								predicate: function(role) { return role == 'b'; },
+								predicate: function(role) { return role == 'b'; },
 								priority: 32
 							});
 						}
 
 						if (_.isFunction(_p.options.callbacks.complete_a)) {
 							_p.mediator.subscribe("complete", _p.options.callbacks.complete_a, {
-								predicate: function(role) { return role == 'a'; },
+								predicate: function(role) { return role == 'a'; },
 								priority: 30
 							});
 						}
 
 						if (_.isFunction(_p.options.callbacks.complete_b)) {
 							_p.mediator.subscribe("complete", _p.options.callbacks.complete_b, {
-								predicate: function(role) { return role == 'b'; },
+								predicate: function(role) { return role == 'b'; },
 								priority: 31
 							});
 						}
