@@ -105,6 +105,7 @@
 			start();
 		});
 
+		stop();
 		perfect.run();
 	});
 }(this, Perfect));
