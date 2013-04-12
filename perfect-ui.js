@@ -28,9 +28,21 @@
  * ***************************************************************************
  */
 
-;(function(window, undefined) {
-	var perfectUI = (function() {
+;(function(window, doc, _, undefined) {
+	var perfectUI = (function(options) {
 		'use strict';
+
+		/**
+		 * Set an element's innerHTML property.
+		 * @private
+		 * @param {Element|String} element The element or id of the element.
+		 * @param {String} html The HTML to set.
+		 * @returns {Element} The element.
+		 */
+		function setHTML(element, html) {
+			element.innerHTML = html == null ? '' : html;
+			return element;
+		}
 
 		/*
 		 * Templating
@@ -43,21 +55,6 @@
 					return Function("x", "with(x)return " + e).call(c, d || b || {});
 				})
 			}
-		};
-
-		/*
-		 * Create DOM element
-		 * Copyright (C) 2011 Jed Schmidt <http://jed.is> - WTFPL
-		 * More: https://gist.github.com/966233
-		 */
-		var m = function(a, b, c) {
-			b = document;                   // get the document,
-			c = b.createElement("p");       // create a container element,
-			c.innerHTML = a;                // write the HTML to it, and
-			a = b.createDocumentFragment(); // create a fragment.
-
-			while(b = c.firstChild) a.appendChild(b);
-			return a;
 		};
 
 		/*
@@ -87,54 +84,133 @@
 		};
 
 		var _p = {
-			f: {
-				start: function(role) {
-					if (role == 'a') {
-						var $container = $("#perfect");
-						var $table = m(
-							'<table id="perfect-table">'        +
-							'	<thead>'                        +
-							'		<tr>'                       +
-							'			<th></th>'              +
-							'			<th></th>'              +
-							'			<th colspan="3">A</th>' +
-							'			<th colspan="3">B</th>' +
-							'			<th></th>'              +
-							'		</tr>'                      +
-							'		<tr>'                       +
-							'			<th>#</th>'             +
-							'			<th>Test name</th>'     +
-							'			<th>Ops/s</th>'         +
-							'			<th>Error</th>'         +
-							'			<th>Count</th>'         +
-							'			<th>Ops/s</th>'         +
-							'			<th>Error</th>'         +
-							'			<th>Count</th>'         +
-							'			<th>Diff</th>'          +
-							'		</tr>'                      +
-							'	</thead>'                       +
-							'	<tbody>'                        +
-							'	</tbody>'                       +
-							'</table>');
+			options: {
+				mediator: {
+					publish: function() {}
+				}
+			},
 
-						$container.appendChild($table);
+			f: {
+				createTable: function() {
+					var $container = $('#perfect');
+					var $table = $container.firstChild;
+
+					if ($table !== null && $table.getAttribute('id') == 'pt')
+						return;
+
+					var html =
+						'<table id="pt">                  ' +
+						'	<thead>                       ' +
+						'		<tr>                      ' +
+						'			<th></th>             ' +
+						'			<th></th>             ' +
+						'			<th>A</th>            ' +
+						'			<th>B</th>            ' +
+						'			<th></th>             ' +
+						'		</tr>                     ' +
+						'		<tr>                      ' +
+						'			<th>#</th>            ' +
+						'			<th>Test name</th>    ' +
+						'			<th>Ops/s</th>        ' +
+						'			<th>Ops/s</th>        ' +
+						'			<th>Change</th>       ' +
+						'		</tr>                     ' +
+						'	</thead>                      ' +
+						'	<tbody id="pt-body">          ' +
+						'	</tbody>                      ' +
+						'</table>                         ';
+
+					setHTML($container, html);
+				},
+
+				start: function(role) {
+				},
+
+				cycle: function(role, e) {
+					var id = e.target.id % 2 ? e.target.id : e.target.id - 1;
+					var row = $('#pt-row-' + id);
+					var col = $('.' + role, row)[0];
+					var hz = $('.hz', col)[0];
+					var err = $('.err', col)[0];
+					var change = $('.change', row)[0];
+
+					hz.setAttribute('data-value', e.target.hz);
+					setHTML(hz, (e.target.hz / 1000.0).toFixed(2) + 'K');
+
+					err.setAttribute('data-value', e.target.stats.rme);
+					setHTML(err, '&plusmn; ' + e.target.stats.rme.toFixed(2) + '%');
+
+					if (role == 'b') {
+						var a_col = $('.a', row)[0];
+						var a_hz = parseFloat($('.hz', a_col)[0].getAttribute('data-value'));
+
+						setHTML(change, ((e.target.hz - a_hz) / a_hz * 100).toFixed(2) + '%');
 					}
 				},
 
-				cycle: function(role) {
+				complete: function(role) {
 				},
 
-				complete: function(role) {
+				add: function(bench) {
+					_p.f.createTable();
+
+					var template = t(
+						'	<td class="number">#{this.number}</td>  ' +
+						'	<td class="name">#{this.name}</td>      ' +
+						'	<td class="a">                          ' +
+						'		<span class="hz"                    ' +
+						'		      data-value="#{this.hz_a}">    ' +
+						'			#{this.hz_a_print}              ' +
+						'		</span>                             ' +
+						'		<span class="err"                   ' +
+						'		      data-value="#{this.err_a}">   ' +
+						'			#{this.err_a_print}             ' +
+						'		</span>                             ' +
+						'	</td>                                   ' +
+						'	<td class="b">                          ' +
+						'		<span class="hz"                    ' +
+						'		      data-value="#{this.hz_b}">    ' +
+						'			#{this.hz_b_print}              ' +
+						'		</span>                             ' +
+						'		<span class="err"                   ' +
+						'		      data-value="#{this.err_b}">   ' +
+						'			#{this.err_b_print}             ' +
+						'		</span>                             ' +
+						'	</td>                                   ' +
+						'	<td class="change">#{this.change}</td>  ');
+
+					var html = template({
+						number: bench.id,
+						name: bench.name,
+						hz_a: 0,
+						hz_a_print: 'Pending',
+						err_a: 0,
+						err_a_print: '',
+						hz_b: 0,
+						hz_b_print: 'Pending',
+						err_b: 0,
+						err_b_print: '',
+						change: 'Pending'
+					});
+
+					var $row = doc.createElement('tr');
+					$row.setAttribute('id', 'pt-row-' + bench.id);
+					setHTML($row, html);
+
+					var $pt_body = $("#pt-body");
+					$pt_body.appendChild($row);
 				}
 			}
 		};
 
+		_.extend(_p.options, options);
 		return {
 			start: _p.f.start,
 			cycle: _p.f.cycle,
-			complete: _p.f.complete
+			complete: _p.f.complete,
+			add: _p.f.add
 		};
 	});
 
 	window.PerfectUI = perfectUI;
-}(this));
+}(this, document, _));

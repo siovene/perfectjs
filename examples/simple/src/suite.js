@@ -1,8 +1,12 @@
-$(function() {
-	var suite = new Benchmark.Suite(),
-	    perfect = new Perfect();
+;(function(window, Perfect, undefined) {
+	var perfect = new Perfect({
+		a: 'lib/simple-0.1.js',
+		b: 'lib/simple-0.2.js',
+		enable_ui: true,
+		include: ['fib_unchanged(8)']
+    });
 
-	suite
+	perfect
 	.add( "fib_unchanged(8)", function() {
 		fib_unchanged(8);
 	})
@@ -19,12 +23,5 @@ $(function() {
 		fib(32);
 	});
 
-	perfect.setOptions({
-		name: 'Simple Performance Regression Tests',
-		a: 'lib/simple-0.1.js',
-		b: 'lib/simple-0.2.js',
-		suite: suite
-	});
-
 	perfect.run();
-});
+}(this, Perfect));

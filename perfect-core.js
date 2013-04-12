@@ -138,8 +138,10 @@
 
 					function createUI() {
 						if (_p.options.enable_ui && _p.ui === undefined) {
-							_p.ui = new PerfectUI();
+							_p.ui = new PerfectUI({mediator: _p.mediator});
 							_p.mediator.subscribe("start", _p.ui.start, {priority: 20});
+							_p.mediator.subscribe("cycle", _p.ui.cycle, {priority: 20});
+							_p.mediator.subscribe("complete", _p.ui.complete, {priority: 20});
 						}
 					}
 
@@ -266,8 +268,14 @@
 
 				add: function(name, fn, teardown) {
 					_p.f.init();
-					_p.a.add(name, fn, teardown);
+
+					var suite = _p.a.add(name, fn, teardown);
 					_p.b.add(name, fn, teardown);
+
+					if (suite !== undefined) {
+						var bench = suite[suite.length-1];
+						_p.ui && _p.ui.add(bench);
+					}
 
 					return this;
 				},

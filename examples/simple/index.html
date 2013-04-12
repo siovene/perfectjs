@@ -9,46 +9,16 @@
 		<h1>Simple Performance Tests</h1>
 		<p>Compares a recursive and a fast iterative Fibonacci sequence generators.</p>
 
-		<table id="perfect">
-			<thead>
-				<tr>
-					<th></th>
-					<th></th>
-					<th colspan="3">A</th>
-					<th colspan="3">B</th>
-					<th></th>
-				</th>
-				<tr>
-					<th>#</th>
-					<th>Test</th>
-					<th>Ops/s</th>
-					<th>Error</th>
-					<th>Count</th>
-					<th>Ops/s</th>
-					<th>Error</th>
-					<th>Count</th>
-					<th>Diff</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+        <div id="perfect"></div>
 
 		<script src="../../lib/benchmark.js"></script>
 		<script src="../../lib/lodash.min.js"></script>
 		<script src="../../lib/lazyload-min.js"></script>
-		<script src="../../lib/jquery-1.9.1.min.js"></script>
-		<script src="../../perfect.js"></script>
-		<script src="../../perfect-qunit.js"></script>
-		<script src="lib/jquery-1.9.1.min.js"></script>
-		<script src="src/suite.js"></script>
+		<script src="../../lib/mediator.min.js"></script>
+		<script src="../../perfect-runner.js"></script>
+		<script src="../../perfect-ui.js"></script>
+		<script src="../../perfect-core.js"></script>
 
-		<script type="text/javascript">
-			QUnit.runPerfect({
-				name: 'Simple Performance Regression Tests',
-				a: 'lib/simple-0.1.js',
-				b: 'lib/simple-0.2.js'
-			});
-		</script>
+		<script src="src/suite.js"></script>
 	</body>
 </html>

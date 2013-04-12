@@ -12,7 +12,7 @@
 			enable_ui: true,
 			callbacks: {
 				start: function() {
-					var table = doc.getElementById("perfect-table");
+					var table = doc.getElementById("pt");
 					ok(table !== null, "table is created");
 					start();
 				}

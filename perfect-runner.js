@@ -163,7 +163,7 @@
 			add: function(name, fn, teardown) {
 				if (!_p.f.testIncluded(name)) {
 					_p.options.mediator.publish("log", "PerfectRunner", "Ignoring excluded test: " + name);
-					return this;
+					return;
 				}
 
 				if (_p.suite === undefined) {
@@ -174,12 +174,11 @@
 					teardown = function() {};
 				}
 
-				_p.suite.add(name, {
-					'fn': fn,
-					'onComplete': _.bind(teardown, this)
+				return _p.suite.add(name, fn, {
+					'onComplete': _.bind(teardown, this),
+					'delay': .25, // This allows the UI to breathe,
+					'async': true
 				});
-
-				return this;
 			},
 
 			/**
