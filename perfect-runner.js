@@ -176,7 +176,7 @@
 
 				return _p.suite.add(name, fn, {
 					'onComplete': _.bind(teardown, this),
-					'delay': .25, // This allows the UI to breathe,
+					'delay': 0.25, // This allows the UI to breathe,
 					'async': true
 				});
 			},
