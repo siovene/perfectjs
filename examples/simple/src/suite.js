@@ -5,8 +5,7 @@
 		             'sequence generators.',
 		a: 'lib/simple-0.1.js',
 		b: 'lib/simple-0.2.js',
-		enable_ui: true,
-		include: ['fib_unchanged(8)']
+		enable_ui: true
     });
 
 	perfect
