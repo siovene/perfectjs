@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 
     concat: {
         perfect: {
-            src: ['src/perfect-core.js', 'src/perfect-runner.js'],
+            src: ['src/perfect-runner.js', 'src/perfect-core.js'],
             dest: 'dist/perfect.js'
         },
 
