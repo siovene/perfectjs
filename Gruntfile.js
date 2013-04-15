@@ -7,10 +7,7 @@ module.exports = function(grunt) {
       scripts: {
         files: [
           'Gruntfile.js',
-          'perfect-core.js',
-          'perfect-runner.js',
-          'perfect-qunit.js',
-          'perfect-ui.js',
+          'src/*.js',
           'examples/**/src/*.js'
         ],
         tasks: ['default']
@@ -20,10 +17,7 @@ module.exports = function(grunt) {
     jshint: {
       all: [
         'Gruntfile.js',
-        'perfect-core.js',
-        'perfect-runner.js',
-        'perfect-qunit.js',
-        'perfect-ui.js'
+        'src/*.js'
       ],
       options: {
         "validthis": true,
@@ -44,17 +38,17 @@ module.exports = function(grunt) {
 
     concat: {
         perfect: {
-            src: ['perfect-runner.js', 'perfect-core.js'],
+            src: ['src/perfect-core.js', 'src/perfect-runner.js'],
             dest: 'dist/perfect.js'
         },
 
         qunit: {
-            src: 'perfect-qunit.js',
+            src: ['src/perfect-qunit.js'],
             dest: 'dist/perfect-qunit.js'
         },
 
         ui: {
-            src: ['perfect-ui.js'],
+            src: ['src/perfect-ui.js'],
             dest: 'dist/perfect-ui.js'
         },
 
