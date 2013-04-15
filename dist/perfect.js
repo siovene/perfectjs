@@ -219,7 +219,8 @@
 
 	window.PerfectRunner = perfectRunner;
 }(this, _, Benchmark, LazyLoad));
-;/*!
+
+/*!
  * Perfect.js v0.1 <https://github.com/siovene/perfectjs>
  * Author: Salvatore Iovene <salvatore.iovene@intel.com>
  *

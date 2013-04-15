@@ -3917,7 +3917,8 @@
     clock({ '_original': { 'fn': noop, 'count': 1, 'options': {} } });
   }
 }(this));
-;/**
+
+/**
  * @license
  * Lo-Dash 1.1.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modern -o ./dist/lodash.js`
@@ -9134,7 +9135,8 @@
     window._ = _;
   }
 }(this));
-;/*jslint browser: true, eqeqeq: true, bitwise: true, newcap: true, immed: true, regexp: false */
+
+/*jslint browser: true, eqeqeq: true, bitwise: true, newcap: true, immed: true, regexp: false */
 
 /**
 LazyLoad makes it easy and painless to lazily load one or more external
@@ -9525,7 +9527,8 @@ LazyLoad = (function (doc) {
 
   };
 })(this.document);
-;/*jslint bitwise: true, nomen: true, plusplus: true, white: true */
+
+/*jslint bitwise: true, nomen: true, plusplus: true, white: true */
 
 /*!
 * Mediator.js Library v0.9.4

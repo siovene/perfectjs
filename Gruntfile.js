@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         },
 
         qunit: {
-            src: ['perfect-qunit.js'],
+            src: 'perfect-qunit.js',
             dest: 'dist/perfect-qunit.js'
         },
 
@@ -66,6 +66,11 @@ module.exports = function(grunt) {
                 'lib/mediator.js'
             ],
             dest: 'dist/perfect-libs.js'
+        },
+
+        css: {
+            src: ['lib/bootstrap.css'],
+            dest: 'dist/perfect-ui.css'
         }
     },
 
@@ -88,6 +93,16 @@ module.exports = function(grunt) {
         libs: {
             src: ['dist/perfect-libs.js'],
             dest: 'dist/perfect-libs.min.js'
+        },
+    },
+
+    cssmin: {
+        minify: {
+            expand: true,
+            cwd: 'dist',
+            src: ['*.css', '!*.min.css'],
+            dest: 'dist',
+            ext: '.min.css'
         }
     }
   });
@@ -96,6 +111,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'cssmin:minify']);
 };
