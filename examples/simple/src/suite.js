@@ -1,5 +1,8 @@
 ;(function(window, Perfect, undefined) {
 	var perfect = new Perfect({
+		name: 'Simple Performance Tests',
+		description: 'Compares a recursive and a fast iterative Fibonacci ' +
+		             'sequence generators.',
 		a: 'lib/simple-0.1.js',
 		b: 'lib/simple-0.2.js',
 		enable_ui: true,

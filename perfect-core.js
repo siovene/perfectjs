@@ -84,7 +84,25 @@
 				 * @memberOf Perfect.options
 				 * @type Boolean
 				 */
-				'enable_ui': false
+				'enable_ui': false,
+
+				/**
+				 * A name for your test suite. It will be used by the default UI,
+				 * if enabled.
+				 *
+				 * @memberOf Perfect.options
+				 * @type String
+				 */
+				'name': '',
+
+				/**
+				 * A description for your test suite. It will be used by the default UI,
+				 * if enabled.
+				 *
+				 * @memberOf Perfect.options
+				 * @type String
+				 */
+				'description': ''
 			},
 
 			benchesA: {},
@@ -138,7 +156,11 @@
 
 					function createUI() {
 						if (_p.options.enable_ui && _p.ui === undefined) {
-							_p.ui = new PerfectUI({mediator: _p.mediator});
+							_p.ui = new PerfectUI({
+								name: _p.options.name,
+								description: _p.options.description,
+								mediator: _p.mediator
+								});
 							_p.mediator.subscribe("start", _p.ui.start, {priority: 20});
 							_p.mediator.subscribe("cycle", _p.ui.cycle, {priority: 20});
 							_p.mediator.subscribe("complete", _p.ui.complete, {priority: 20});

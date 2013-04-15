@@ -91,36 +91,48 @@
 			},
 
 			f: {
-				createTable: function() {
+				createUI: function() {
 					var $container = $('#perfect');
-					var $table = $container.firstChild;
 
-					if ($table !== null && $table.getAttribute('id') == 'pt')
+					if ($container.firstChild !== null)
 						return;
 
-					var html =
-						'<table id="pt">                  ' +
-						'	<thead>                       ' +
-						'		<tr>                      ' +
-						'			<th></th>             ' +
-						'			<th></th>             ' +
-						'			<th>A</th>            ' +
-						'			<th>B</th>            ' +
-						'			<th></th>             ' +
-						'		</tr>                     ' +
-						'		<tr>                      ' +
-						'			<th>#</th>            ' +
-						'			<th>Test name</th>    ' +
-						'			<th>Ops/s</th>        ' +
-						'			<th>Ops/s</th>        ' +
-						'			<th>Change</th>       ' +
-						'		</tr>                     ' +
-						'	</thead>                      ' +
-						'	<tbody id="pt-body">          ' +
-						'	</tbody>                      ' +
-						'</table>                         ';
+					var $table = doc.createElement('table');
+					$table.setAttribute('id', 'pt');
+					setHTML(
+						$table,
+						'<thead>                   ' +
+						'	<tr>                   ' +
+						'		<th></th>          ' +
+						'		<th></th>          ' +
+						'		<th>A</th>         ' +
+						'		<th>B</th>         ' +
+						'		<th></th>          ' +
+						'	</tr>                  ' +
+						'	<tr>                   ' +
+						'		<th>#</th>         ' +
+						'		<th>Test name</th> ' +
+						'		<th>Ops/s</th>     ' +
+						'		<th>Ops/s</th>     ' +
+						'		<th>Change</th>    ' +
+						'	</tr>                  ' +
+						'</thead>                  ' +
+						'<tbody id="pt-body">      ' +
+						'</tbody>                  ');
 
-					setHTML($container, html);
+					if (_p.options.name !== undefined) {
+						var $title = doc.createElement('h1');
+						setHTML($title, _p.options.name);
+						$container.appendChild($title);
+					}
+
+					if (_p.options.description !== undefined) {
+						var $desc = doc.createElement('p');
+						setHTML($desc, _p.options.description);
+						$container.appendChild($desc);
+					}
+
+					$container.appendChild($table);
 				},
 
 				start: function(role) {
@@ -152,7 +164,7 @@
 				},
 
 				add: function(bench) {
-					_p.f.createTable();
+					_p.f.createUI();
 
 					var template = t(
 						'	<td class="number">#{this.number}</td>  ' +
