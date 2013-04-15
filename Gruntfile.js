@@ -63,7 +63,7 @@ module.exports = function(grunt) {
         },
 
         css: {
-            src: ['lib/bootstrap.css'],
+            src: ['lib/bootstrap.css', 'src/perfect-ui.css'],
             dest: 'dist/perfect-ui.css'
         }
     },

@@ -6156,3 +6156,7 @@ a.badge:focus {
 .affix {
   position: fixed;
 }
+
+body {
+	margin: 1rem 2rem;
+}

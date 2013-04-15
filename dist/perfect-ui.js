@@ -101,6 +101,7 @@
 
 					var $table = doc.createElement('table');
 					$table.setAttribute('id', 'pt');
+					$table.className = 'table table-condensed table-striped';
 					setHTML(
 						$table,
 						'<thead>                   ' +
