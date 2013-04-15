@@ -6160,3 +6160,8 @@ a.badge:focus {
 body {
 	margin: 1rem 2rem;
 }
+
+table#pt td .err {
+	color: #999;
+	margin-left: 8px;
+}
