@@ -2,53 +2,46 @@
 <html>
 	<head>
 		<title>Simple Performance Test Suite</title>
-		<link rel="stylesheet" type="text/css" href="../../perfect.css" />
+		<link rel="stylesheet" type="text/css" href="../../dist/perfect-ui.min.css" />
 	</head>
 
 	<body>
-		<h1>Simple Performance Tests</h1>
-		<p>Compares a recursive and a fast iterative Fibonacci sequence generators.</p>
+		<div id="perfect"></div>
 
-		<table id="perfect">
-			<thead>
-				<tr>
-					<th></th>
-					<th></th>
-					<th colspan="3">A</th>
-					<th colspan="3">B</th>
-					<th></th>
-				</th>
-				<tr>
-					<th>#</th>
-					<th>Test</th>
-					<th>Ops/s</th>
-					<th>Error</th>
-					<th>Count</th>
-					<th>Ops/s</th>
-					<th>Error</th>
-					<th>Count</th>
-					<th>Diff</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-
-		<script src="../../lib/benchmark.js"></script>
-		<script src="../../lib/lodash.min.js"></script>
-		<script src="../../lib/lazyload-min.js"></script>
-		<script src="../../lib/jquery-1.9.1.min.js"></script>
-		<script src="../../perfect.js"></script>
-		<script src="../../perfect-qunit.js"></script>
-		<script src="lib/jquery-1.9.1.min.js"></script>
-		<script src="src/suite.js"></script>
+		<script src="../../dist/perfect-libs.js"></script>
+		<script src="../../dist/perfect-ui.js"></script>
+		<script src="../../dist/perfect.js"></script>
+		<script src="../../dist/perfect-qunit.js"></script>
 
 		<script type="text/javascript">
-			QUnit.runPerfect({
-				name: 'Simple Performance Regression Tests',
-				a: 'lib/simple-0.1.js',
-				b: 'lib/simple-0.2.js'
-			});
+			;(function(window, Perfect, undefined) {
+				QUnit.initPerfect({
+					name: 'Simple Performance Regression Tests',
+					a: 'lib/simple-0.1.js',
+					b: 'lib/simple-0.2.js',
+					enable_ui: true,
+				});
+
+				QUnit.module("simple");
+
+				QUnit.test( "fib(4)", function() {
+					fib(4);
+				});
+
+				QUnit.test( "fib(8)", function() {
+					fib(8);
+				});
+
+				QUnit.test( "fib(16)", function() {
+					fib(16);
+				});
+
+				QUnit.test( "fib(32)", function() {
+					fib(32);
+				});
+
+				QUnit.runPerfect();
+			}(this, Perfect));
 		</script>
 	</body>
 </html>

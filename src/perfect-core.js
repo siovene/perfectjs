@@ -143,6 +143,10 @@
 					}
 				},
 
+				setOptions: function(options) {
+					_.extend(_p.options, options);
+				},
+
 				init: function() {
 					function createMediator() {
 						if (_p.mediator === undefined) {
@@ -361,7 +365,7 @@
 			}
 		};
 
-		_.extend(_p.options, options);
+		_p.f.setOptions(options);
 
 		return {
 			add: _p.f.add,

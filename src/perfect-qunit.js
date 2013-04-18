@@ -96,11 +96,10 @@
 
 			initPerfect: function(options) {
 				if (_priv.perfect === null) {
-					_priv.perfect = new Perfect();
-					_priv.perfect.options.suite = new Benchmark.Suite();
+					_priv.perfect = new Perfect(options);
+				} else {
+					_priv.perfect.setOptions(options);
 				}
-
-				_priv.perfect.setOptions(options);
 			},
 
 			runPerfect: function(options) {
