@@ -1,3 +1,4 @@
 *.min.js*
 /node_modules/
 /tests/pid.txt
+/dist
