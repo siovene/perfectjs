@@ -92,6 +92,9 @@
 				}
 			},
 
+			benchesA: {},
+			benchesB: {},
+
 			f: {
 				createUI: function() {
 					var $container = $('#perfect');
@@ -111,6 +114,7 @@
 						'		<th>A</th>         ' +
 						'		<th>B</th>         ' +
 						'		<th></th>          ' +
+						'		<th></th>          ' +
 						'	</tr>                  ' +
 						'	<tr>                   ' +
 						'		<th>#</th>         ' +
@@ -118,6 +122,7 @@
 						'		<th>Ops/s</th>     ' +
 						'		<th>Ops/s</th>     ' +
 						'		<th>Change</th>    ' +
+						'		<th>Best</th>      ' +
 						'	</tr>                  ' +
 						'</thead>                  ' +
 						'<tbody id="pt-body">      ' +
@@ -155,11 +160,27 @@
 					err.setAttribute('data-value', e.target.stats.rme);
 					setHTML(err, '&plusmn; ' + e.target.stats.rme.toFixed(2) + '%');
 
+					var targetBenches = role == 'a' ? _p.benchesA : _p.benchesB;
+					targetBenches[e.target.name] = e.target;
+
 					if (role == 'b') {
 						var a_col = $('.a', row)[0];
 						var a_hz = parseFloat($('.hz', a_col)[0].getAttribute('data-value'));
+						var targetA = _p.benchesA[e.target.name];
+						var targetB = e.target;
+						var diff = targetB.compare(targetA);
+						var best = $('.best', row)[0];
+
 
 						setHTML(change, ((e.target.hz - a_hz) / a_hz * 100).toFixed(2) + '%');
+
+						if (diff < 0) {
+							best.innerText = 'A';
+						} else if (diff === 0) {
+							best.innerText = '=';
+						} else {
+							best.innerText = 'B';
+						}
 					}
 				},
 
@@ -192,7 +213,8 @@
 						'			#{this.err_b_print}             ' +
 						'		</span>                             ' +
 						'	</td>                                   ' +
-						'	<td class="change">#{this.change}</td>  ');
+						'	<td class="change">#{this.change}</td>  ' +
+						'	<td class="best">#{this.best}</td>      ');
 
 					var html = template({
 						number: bench.id,
@@ -205,7 +227,8 @@
 						hz_b_print: 'Pending',
 						err_b: 0,
 						err_b_print: '',
-						change: 'Pending'
+						change: 'Pending',
+						best: 'Pending'
 					});
 
 					var $row = doc.createElement('tr');
