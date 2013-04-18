@@ -318,20 +318,20 @@
 					if (role == 'b') {
 						var targetA = _p.benchesA[e.target.name];
 						var targetB = e.target;
-						var diff = targetB.compare(targetA);
-						var change = (targetB.hz - targetA.hz) / targetA.hz * 100;
+						var change = perfect.change(targetA, targetB);
+						var best = perfect.compare(targetA, targetB);
 
 						_p.mediator.publish(
 							"log",
 							"Perfect",
 							"The percentage change is: " + change.toFixed(2) + "%");
 
-						if (diff < 0) {
+						if (best < 0) {
 							_p.mediator.publish(
 								"log",
 								"Perfect",
-								"'b' can be considered faster than 'a'");
-						} else if (diff === 0) {
+								"'a' can be considered faster than 'b'");
+						} else if (best === 0) {
 							_p.mediator.publish(
 								"log",
 								"Perfect",
@@ -368,6 +368,22 @@
 			run: _p.f.run
 		};
 	});
+
+
+	perfect.change = function(a, b) {
+		return (b.hz - a.hz) / a.hz * 100;
+	};
+
+	perfect.compare = function(a, b) {
+		// Ideally, this should use Benchmark.compare, but:
+		// https://github.com/bestiejs/benchmark.js/pull/43
+		var change = perfect.change(a, b);
+
+		if (Math.abs(change) < 5)
+			return 0;
+
+		return a.hz > b.hz ? -1 : 1;
+	};
 
 	window.Perfect = perfect;
 }(this, _, Mediator, PerfectRunner, PerfectUI));

@@ -148,38 +148,41 @@
 
 				cycle: function(role, e) {
 					var id = e.target.id % 2 ? e.target.id : e.target.id - 1;
-					var row = $('#pt-row-' + id);
-					var col = $('.' + role, row)[0];
-					var hz = $('.hz', col)[0];
-					var err = $('.err', col)[0];
-					var change = $('.change', row)[0];
+					var $row = $('#pt-row-' + id);
+					var $col = $('.' + role, $row)[0];
+					var $hz = $('.hz', $col)[0];
+					var $err = $('.err', $col)[0];
+					var $change = $('.change', $row)[0];
 
-					hz.setAttribute('data-value', e.target.hz);
-					setHTML(hz, (e.target.hz / 1000.0).toFixed(2) + 'K');
+					$hz.setAttribute('data-value', e.target.hz);
+					setHTML($hz, (e.target.hz / 1000.0).toFixed(2) + 'K');
 
-					err.setAttribute('data-value', e.target.stats.rme);
-					setHTML(err, '&plusmn; ' + e.target.stats.rme.toFixed(2) + '%');
+					$err.setAttribute('data-value', e.target.stats.rme);
+					setHTML($err, '&plusmn; ' + e.target.stats.rme.toFixed(2) + '%');
 
 					var targetBenches = role == 'a' ? _p.benchesA : _p.benchesB;
 					targetBenches[e.target.name] = e.target;
 
 					if (role == 'b') {
-						var a_col = $('.a', row)[0];
-						var a_hz = parseFloat($('.hz', a_col)[0].getAttribute('data-value'));
+						var $a_col = $('.a', $row)[0];
+						var a_hz = parseFloat($('.hz', $a_col)[0].getAttribute('data-value'));
 						var targetA = _p.benchesA[e.target.name];
 						var targetB = e.target;
-						var diff = targetB.compare(targetA);
-						var best = $('.best', row)[0];
+						var change = Perfect.change(targetA, targetB);
+						var best = Perfect.compare(targetA, targetB);
+						var $best = $('.best', $row)[0];
 
 
-						setHTML(change, ((e.target.hz - a_hz) / a_hz * 100).toFixed(2) + '%');
+						setHTML($change, change.toFixed(2) + '%');
 
-						if (diff < 0) {
-							best.innerText = 'A';
-						} else if (diff === 0) {
-							best.innerText = '=';
+						if (best < 0) {
+							$best.innerText = 'A';
+							$row.className = 'error';
+						} else if (best === 0) {
+							$best.innerText = '=';
 						} else {
-							best.innerText = 'B';
+							$best.innerText = 'B';
+							$row.className = 'success';
 						}
 					}
 				},
