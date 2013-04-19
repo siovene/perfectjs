@@ -14,6 +14,7 @@
 `Perfect` helps you spot performance regressions in your code by running
 benchmarks on multiple versions of your library.
 
+
 ## Usage ##
 The minimal working code you need to use `Perfect` resembles this:
 
@@ -33,44 +34,48 @@ perfect.run();
 As you can see, `Perfect` expects paths to two versions of the library you need
 to test for performance regressions, and they go to properties `a` and `b`.
 
-This minimal example will make use of `Perfect.UI`, a simple component that
-uses `jQuery` to append results to an `HTML` `<table>`.
 
-Your `HTML` file needs to have a `<table>` with `id="perfect"` and a `<tbody>`
-child element. Here's an example:
+## The in-built UI ##
+`Perfect` ships with a very simple UI. To enable it, pass the following option
+to the constructor:
 
-```html
-<table id="perfect" border="1" cellpadding="10">
-	<thead>
-		<tr>
-			<th>#</th>
-			<th>Test</th>
-			<th>Kilo ops/sec 'A'</th>
-			<th>Kilo ops/sec 'B'</th>
-			<th>Diff</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
+```javascript
+	enable_ui: true
 ```
 
-Data will be appended to the `<tbody>` element.
+You will need an HTML file that includes the `Perfect` CSS file:
+
+```html
+<link rel="stylesheet" type="text/css" href="perfect-ui.min.css" />
+```
+
+and the following JavaScript files:
+
+```html
+<script src="perfect-libs.js"></script>
+<script src="perfect-ui.js"></script>
+<script src="perfect.js"></script>
+```
+
+Additionally, you need an element with `id="pefect"`. Please see the "simple"
+example.
+
 
 ## QUnit compatibility layer ##
-Because `Perfectjs` works by comparing two versions of your library, you may
+Because `Perfect` works by comparing two versions of your library, you may
 recycle your `QUnit` unit tests as performance tests. Knowing that certain
 unit tests run faster or slower across different versions of your library can
 help you spot performance regressions, and you don't need to write a lot of
 performance tests anew.
 
 To reuse your `QUnit` unit tests, link `perfect-qunit.js` after
-`perfect.js` in your HTML file, then link your unit test javascript files,
-and finally add the following code at the end of your `<body>`:
+`perfect.js` in your HTML file.
+
+You should first have some code like this:
 
 ```html
 <script type="text/javascript">
-	QUnit.runPerfect({
+	QUnit.initPerfect({
 		name: 'My performance test',
 		a: 'lib/target_library_0.1.js',
 		b: 'lib/target_library_0.2.js'
@@ -78,20 +83,31 @@ and finally add the following code at the end of your `<body>`:
 </script>
 ```
 
+then you should include your unit tests JavaScript file, and, finally, do this:
+
+```html
+<script type="text/javascript">
+	QUnit.runPerfect();
+</script>
+```
+
 ## Examples ##
 Please see the `examples/` directory.
 
-## Dependencies ##
-`Perfect` needs:
+
+## Third party libraries ##
+`Perfect` uses:
  * Benchmarkjs: http://benchmarkjs.com/
  * lodash: http://lodash.com/
  * LazyLoad: https://github.com/rgrove/lazyload/
- * jQuery: http://jquery.org/ (only if you want to use Perfect.UI)
+ * Mediator: https://github.com/ajacksified/Mediator.js
 
-Remember to include them before `Perfect`, in your `HTML` files.
+They are deployed as part of `perfect-libs.js`.
+
 
 ## Contributing ##
 Please remember to run `grunt lint` before submitting patches.
+
 
 ## Testing ##
 `Perfect` ships with unit tests. Please run `npm install` to install
@@ -100,6 +116,12 @@ package manager, and then do:
 
 ```
 phantomjs tests/phantomjs-index.js tests/index.html
+```
+
+or simply:
+
+```
+npm test
 ```
 
 ## Authors and contributors ##
