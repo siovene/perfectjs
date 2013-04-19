@@ -14,12 +14,12 @@
 		<script src="../../dist/perfect-qunit.js"></script>
 
 		<script type="text/javascript">
-			;(function(window, Perfect, undefined) {
+			(function(window, QUnit) {
 				QUnit.initPerfect({
 					name: 'Simple Performance Regression Tests',
 					a: 'lib/simple-0.1.js',
 					b: 'lib/simple-0.2.js',
-					enable_ui: true,
+					enable_ui: true
 				});
 
 				QUnit.module("simple");
@@ -41,7 +41,7 @@
 				});
 
 				QUnit.runPerfect();
-			}(this, Perfect));
+			}(this, QUnit));
 		</script>
 	</body>
 </html>
