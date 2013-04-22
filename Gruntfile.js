@@ -54,8 +54,8 @@ module.exports = function(grunt) {
 
         libs: {
             src: [
-                'lib/benchmark.js',
                 'lib/lodash.js',
+                'lib/benchmark.js',
                 'lib/lazyload.js',
                 'lib/mediator.js'
             ],
