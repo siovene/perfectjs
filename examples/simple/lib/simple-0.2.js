@@ -17,7 +17,7 @@
 	}
 
 	function fib_unchanged(n){
-		return n < 2 ? n : fib(n-1) + fib(n-2);
+		return n < 2 ? n : fib_unchanged(n-1) + fib_unchanged(n-2);
 	}
 
 	window.fib = fib;
