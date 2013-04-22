@@ -379,14 +379,7 @@
 	};
 
 	perfect.compare = function(a, b) {
-		// Ideally, this should use Benchmark.compare, but:
-		// https://github.com/bestiejs/benchmark.js/pull/43
-		var change = perfect.change(a, b);
-
-		if (Math.abs(change) < 5)
-			return 0;
-
-		return a.hz > b.hz ? -1 : 1;
+		return a.compare(b);
 	};
 
 	window.Perfect = perfect;
