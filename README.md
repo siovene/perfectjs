@@ -101,11 +101,26 @@ Please see the `examples/` directory.
  * lodash: http://lodash.com/
  * LazyLoad: https://github.com/rgrove/lazyload/
  * Mediator: https://github.com/ajacksified/Mediator.js
+ * Bootstrap: https://github.com/twitter/bootstrap (only for the CSS)
 
 They are deployed as part of `perfect-libs.js`.
 
 
 ## Contributing ##
+Clone the repository and fetch the submodules:
+
+```
+git clone git@github.com:siovene/perfectjs.git
+git submodule init
+git submodule update
+```
+
+Use Grunt to build:
+
+```
+grunt
+```
+
 Please remember to run `grunt lint` before submitting patches.
 
 

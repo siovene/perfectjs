@@ -54,16 +54,16 @@ module.exports = function(grunt) {
 
         libs: {
             src: [
-                'lib/lodash.js',
-                'lib/benchmark.js',
-                'lib/lazyload.js',
-                'lib/mediator.js'
+                'modules/lodash/lodash.js',
+                'modules/benchmark.js/benchmark.js',
+                'modules/lazyload/lazyload-min.js',
+                'modules/Mediator.js/mediator.min.js'
             ],
             dest: 'dist/perfect-libs.js'
         },
 
         css: {
-            src: ['lib/bootstrap.css', 'src/perfect-ui.css'],
+            src: ['modules/bootstrap/docs/assets/css/bootstrap.css', 'src/perfect-ui.css'],
             dest: 'dist/perfect-ui.css'
         }
     },

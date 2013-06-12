@@ -1,0 +1,15 @@
+[submodule "modules/benchmark.js"]
+	path = modules/benchmark.js
+	url = git://github.com/bestiejs/benchmark.js.git
+[submodule "modules/bootstrap"]
+	path = modules/bootstrap
+	url = git://github.com/twitter/bootstrap.git
+[submodule "modules/lazyload"]
+	path = modules/lazyload
+	url = git://github.com/rgrove/lazyload.git
+[submodule "modules/Mediator.js"]
+	path = modules/Mediator.js
+	url = git://github.com/ajacksified/Mediator.js.git
+[submodule "modules/lodash"]
+	path = modules/lodash
+	url = git://github.com/bestiejs/lodash.git
