@@ -6,3 +6,11 @@ table#pt td .err {
 	color: #999;
 	margin-left: 8px;
 }
+
+table#pt td.winner {
+	background-color: #dff0d8;
+}
+
+table#pt td.loser {
+	background-color: #f2dede;
+}

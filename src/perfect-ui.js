@@ -165,6 +165,7 @@
 
 					if (role == 'b') {
 						var $a_col = $('.a', $row)[0];
+						var $b_col = $('.b', $row)[0];
 						var a_hz = parseFloat($('.hz', $a_col)[0].getAttribute('data-value'));
 						var targetA = _p.benchesA[e.target.name];
 						var targetB = e.target;
@@ -172,17 +173,18 @@
 						var best = Perfect.compare(targetA, targetB);
 						var $best = $('.best', $row)[0];
 
-
 						setHTML($change, change.toFixed(2) + '%');
 
 						if (best < 0) {
 							$best.innerText = 'A';
-							$row.className = 'error';
+							$a_col.className = 'a winner';
+							$b_col.className = 'b loser';
 						} else if (best === 0) {
 							$best.innerText = '=';
 						} else {
 							$best.innerText = 'B';
-							$row.className = 'success';
+							$a_col.className = 'a loser';
+							$b_col.className = 'b winner';
 						}
 					}
 				},
