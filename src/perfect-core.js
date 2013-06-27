@@ -379,7 +379,7 @@
 	};
 
 	perfect.compare = function(a, b) {
-		return a.compare(b);
+		return b.compare(a);
 	};
 
 	window.Perfect = perfect;
