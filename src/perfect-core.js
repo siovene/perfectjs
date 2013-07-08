@@ -163,8 +163,10 @@
 							_p.ui = new PerfectUI({
 								name: _p.options.name,
 								description: _p.options.description,
-								mediator: _p.mediator
-								});
+								mediator: _p.mediator,
+								a: _p.options.a,
+								b: _p.options.b
+							});
 							_p.mediator.subscribe("start", _p.ui.start, {priority: 20});
 							_p.mediator.subscribe("cycle", _p.ui.cycle, {priority: 20});
 							_p.mediator.subscribe("complete", _p.ui.complete, {priority: 20});

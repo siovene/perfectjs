@@ -95,6 +95,9 @@
 			benchesA: {},
 			benchesB: {},
 
+			a: undefined,
+			b: undefined,
+
 			f: {
 				createUI: function() {
 					var $container = $('#perfect');
@@ -111,8 +114,8 @@
 						'	<tr>                   ' +
 						'		<th></th>          ' +
 						'		<th></th>          ' +
-						'		<th>A</th>         ' +
-						'		<th>B</th>         ' +
+						'		<th id="ha">A</th> ' +
+						'		<th id="hb">B</th> ' +
 						'		<th></th>          ' +
 						'		<th></th>          ' +
 						'	</tr>                  ' +
@@ -141,6 +144,9 @@
 					}
 
 					$container.appendChild($table);
+
+					setHTML($('#ha'), _p.options.a);
+					setHTML($('#hb'), _p.options.b);
 				},
 
 				start: function(role) {
@@ -176,7 +182,7 @@
 						setHTML($change, change.toFixed(2) + '%');
 
 						if (best < 0) {
-							$best.innerText = 'A';
+							$best.innerText = _p.options.a;
 							$a_col.className = 'a winner';
 							$b_col.className = 'b loser';
 						} else if (best === 0) {
@@ -184,7 +190,7 @@
 							$a_col.className = 'a equal';
 							$b_col.className = 'b equal';
 						} else {
-							$best.innerText = 'B';
+							$best.innerText = _p.options.b;
 							$a_col.className = 'a loser';
 							$b_col.className = 'b winner';
 						}
