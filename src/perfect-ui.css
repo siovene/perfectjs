@@ -14,3 +14,11 @@ table#pt td.winner {
 table#pt td.loser {
 	background-color: #f2dede;
 }
+
+table#pt td.equal {
+    background-color: #fcf8e3;
+}
+
+i.pending {
+    color: #cecece;
+}

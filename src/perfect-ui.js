@@ -181,6 +181,8 @@
 							$b_col.className = 'b loser';
 						} else if (best === 0) {
 							$best.innerText = '=';
+							$a_col.className = 'a equal';
+							$b_col.className = 'b equal';
 						} else {
 							$best.innerText = 'B';
 							$a_col.className = 'a loser';
@@ -225,15 +227,15 @@
 						number: bench.id,
 						name: bench.name,
 						hz_a: 0,
-						hz_a_print: 'Pending',
+						hz_a_print: '<i class="pending">Pending</i>',
 						err_a: 0,
 						err_a_print: '',
 						hz_b: 0,
-						hz_b_print: 'Pending',
+						hz_b_print: '<i class="pending">Pending</i>',
 						err_b: 0,
 						err_b_print: '',
-						change: 'Pending',
-						best: 'Pending'
+						change: '<i class="pending">Pending</i>',
+						best: '<i class="pending">Pending</i>'
 					});
 
 					var $row = doc.createElement('tr');
