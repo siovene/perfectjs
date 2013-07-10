@@ -30,7 +30,6 @@ module.exports = function(grunt) {
         "boss"     : true,
         "expr"     : true,
         "asi"      : true,
-        "es5"      : true,
         'smarttabs': true,
         'sub'      : true
       }
