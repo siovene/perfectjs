@@ -108,6 +108,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-update-submodules');
 
   grunt.registerTask('submodules', ['update_submodules']);
+  grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('default', [
     'update_submodules',
     'jshint',
