@@ -105,6 +105,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-update-submodules');
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'cssmin:minify']);
+  grunt.registerTask('submodules', ['update_submodules']);
+  grunt.registerTask('default', [
+    'update_submodules',
+    'jshint',
+    'concat',
+    'uglify',
+    'cssmin:minify'
+  ]);
 };
