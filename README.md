@@ -111,8 +111,6 @@ Clone the repository and fetch the submodules:
 
 ```
 git clone git@github.com:siovene/perfectjs.git
-git submodule init
-git submodule update
 ```
 
 Use Grunt to build:
